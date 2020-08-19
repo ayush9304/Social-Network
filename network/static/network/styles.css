@@ -1,0 +1,345 @@
+
+.body{
+    display: flex;
+    min-height: 100%;
+    font-family: sans-serif;
+}
+.btn{
+    border-radius: 20px;
+    padding: 0.32rem 1rem 0.375rem 1rem;
+}
+.btn, .btn:focus, .btn:active{
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+}
+
+.icon-btn {
+    background: none;
+    border-color: transparent;
+    color: #28a745;
+    line-height: .82em;
+    padding: 7px;
+    margin: 0px;
+    border-radius: 25px;
+}
+.icon-btn:hover{
+    background-color: rgba(40, 167, 69, .1);
+    transition-duration: .35s;
+}
+.icon-btn:active{
+    background-color: rgba(40, 167, 69, .23);
+    transition-duration: .35s;
+}
+.icon-btn:focus{
+    outline: none;
+}
+
+
+.sidenav {
+    height: 100%;
+    width: 21.8%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 15px;
+    list-style: none;
+    border-right: 1px solid #e6ecf0;
+    padding-left: 3%;
+}
+.sidenav ul{
+    list-style: none;
+    padding-left: 0px;
+}
+.sidenav li{
+    margin-top: 5px;
+}
+.sidenav .nav-link{
+    color: #14171a;
+    line-height: .7em;
+    font-weight: 600;
+    padding: 0px;
+}
+.sidenav .nav-link > div{
+    padding: 11px 20px 8px 12px;
+    border-radius: 25px;
+    line-height: 0.9em;
+    width: max-content;
+}
+.sidenav .nav-link > div:hover{
+    color: #17bf63;
+    background-color: #e7f8ef;
+    transition-duration: .2s;
+}
+
+
+
+.main-div{
+    position: relative;
+    width: 78%;
+    min-height: 100vh;
+    left: 21.8%;
+    overflow: auto;
+    border-right: 1px solid #e6ecf0;
+    display: flex;
+    flex-basis: auto;
+}
+.left-div{
+    position: relative;
+    width: 60.7%;
+}
+.head{
+    height: 7.5vh;
+}
+.heading{
+    position: fixed;
+    width: 47.3%;
+    top: 0px;
+    border-bottom: .5px solid #e6ecf0;
+    line-height: .7em;
+    font-weight: 800;
+    background-color: #fff;
+    z-index: 1000;
+}
+
+.heading, .main-div-content{
+    padding: 18px;
+}
+
+.left-div-content{
+    margin-top: 7.5vh;
+}
+
+.new-post{
+    display: flex;
+    padding: 18px 18px 8px 18px;
+}
+.small-profilepic{
+    width: 3.6vw;
+    height: 3.3vw;
+    border-radius: 30px;
+    overflow: hidden;
+    margin-right: 8px;
+    margin-left: -3px;
+    margin-top: -8px;
+    background-image: url(/media/profile_pic/ayush_avatar.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.textarea {
+    display: block;
+    width: 100%;
+    overflow: auto;
+    resize: vertical;
+    min-height: 30px;
+    line-height: 20px;
+    max-height: 68vh;
+    outline: none;
+    margin-top: 2px;
+    cursor: auto;
+}
+.textarea[contenteditable]:empty::before {
+    content: "What's happening?";
+    color: gray;
+    cursor: auto;
+}
+.form-area{
+    width: 100%;
+}/*
+.form-area textarea{
+    width: 100%;
+    max-height: 10vh;
+}*/
+.form-icon-btn{
+    margin-left: -6px;
+    margin-top: 5px;
+}
+
+#img-div{
+    height: 290px;
+    width: 100%;
+    border-radius: 15px;
+    display:none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color:white;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#spinner{
+    position:relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+#del-img{
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    left: .6%;
+    top: .6%;
+    padding: 3px;
+    background:none;
+    border:none;
+    outline:none;
+    margin-bottom: 0px;
+}
+#del-img > svg{
+    background-color: rgba(0, 0, 0, 0.77);
+    border-radius: 20px;
+    padding: 4px;
+}
+#del-img > svg:hover{
+    background-color: rgba(0, 0, 0, 0.67);
+}
+#del-img > svg:active{
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.form-action-btns{
+    margin-top: 8px;
+}
+
+
+
+.space{
+    height: 5px;
+    background-color: #e6ecf0;
+}
+.main-div-content{
+    background-color: #e6ecf0;
+}
+/*.main-div > div{
+    margin-top: 10px;
+    max-height: 100vh;
+    overflow: auto;
+}*/
+
+.right-div{
+    width: 30%;
+    height: 100vh;
+    position: fixed;
+    right: .95%;
+    height: 100vh;
+}
+.right-div .head{
+    padding: .9vh 1.5vw;
+}
+.right-div .search-div{
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    /*width: min-content;*/
+    border-radius: 25px;
+    background-color: #e6ecf0;
+    padding-left: 10px;
+    padding-right: 10px;
+    vertical-align: middle;
+}
+#search-box{
+    height: 5.7vh;
+    border: none;
+    background: none;
+    outline: none;
+    width: 100%;
+    margin-left: 8px;
+}
+#search-box::placeholder{
+    color: #6d7e8c;
+}
+
+
+.right-div-content{
+    height: 92.5vh;
+    overflow: auto;
+    padding-left: 1.5vw;
+    padding-right: 1.5vw;
+}
+
+
+.right-div-content::-webkit-scrollbar{
+    visibility: hidden;
+    width: 8px;
+    transition-duration: .5s;
+    background-color: transparent;
+}
+/* .third:focus::-webkit-scrollbar, .third:focus::-webkit-scrollbar-thumb*/
+.right-div-content:hover::-webkit-scrollbar, .right-div-content:hover::-webkit-scrollbar-thumb{
+    border-radius: 8px;
+    background-color: grey;
+    transition-duration: .5s;
+}
+
+
+.blackout{
+    position: fixed;
+    width: 100vw;
+    height: 100%;
+    background-color: rgba(0,0,0,.25);
+    display: none;
+    z-index: 5499;
+}
+
+@keyframes popup{
+    0%{
+        transform: scale(.92);
+    }
+    100%{
+        transform: scale(1);
+    }
+}
+
+.popup{
+    position: absolute;
+    width: 46vw;
+    background-color: white;
+    vertical-align: middle;
+    top: 6vh;
+    left: 27vw;
+    max-height: 88vh;
+    overflow: hidden;
+    display: none;
+    z-index: 5500;
+    border-radius: 17px;
+    animation-name: popup;
+    animation-duration: .15s;
+    animation-fill-mode: forwards;
+}
+.popup .popup-heading{
+    padding: 5px 8px;
+    position: sticky;
+    top:0;
+    background-color:white;
+    border-bottom: 1.5px solid #ccd6dd;
+}
+
+.popup .popup-content{
+    text-align: center;
+    margin: 0px 5px;
+    padding: 0px 18px 0px 18px;
+    overflow: auto;
+    max-height: 80vh;
+}
+.popup-center{
+    top: 50%;
+    transform: translateY(-50%);
+}
+.blackout-div{
+    position: absolute;
+}
+
+.popup-content::-webkit-scrollbar-track {
+    background: none;
+}
+.popup-content::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+.popup-content::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 5px;
+}
