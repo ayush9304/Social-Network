@@ -5,7 +5,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.textarea').addEventListener('input', expand_control);
     document.querySelector('#insert-img').onchange = previewFile;
 });
+
 function expand_control() {
+    let btn = document.querySelector('.form-action-btns').querySelector('input[type=submit]');
+    if(document.querySelector('.textarea').innerText.trim().length > 0) {
+        btn.disabled = false;
+    }
+    else {
+        btn.disabled = true;
+    }
     if (document.querySelector('.textarea').offsetHeight > 410) {
         document.querySelector('.textarea').style.overflow = 'auto';
     }
@@ -70,6 +78,7 @@ function previewFile() {
         //reader.addEventListener('progress', (event) => {
         //    document.querySelector('#spinner').style.display = 'block';
         //});
+        document.querySelector('.form-action-btns').querySelector('input[type=submit]').disabled = false;
         var promise = new Promise(function(resolve, reject){
             setTimeout(() => {
                 var read = reader.readAsDataURL(file);
@@ -87,11 +96,13 @@ function previewFile() {
         
     }
     else {
-        preview.style.backgroundImage = `url()`;
+        document.querySelector('#spinner').style.display = 'none';
+        document.querySelector('#del-img').style.display = 'block';
     }
 }
 function del_image() {
     document.querySelector('input[type=file]').value = '';
     document.querySelector('#img-div').style.backgroundImage = '';
     document.querySelector('#img-div').style.display = 'none';
+    document.querySelector('.form-action-btns').querySelector('input[type=submit]').disabled = true;
 }

@@ -12,6 +12,9 @@
     box-shadow: none !important;
     -webkit-box-shadow: none !important;
 }
+.btn:disabled{
+    cursor: default;
+}
 
 .icon-btn {
     background: none;
@@ -33,6 +36,9 @@
 .icon-btn:focus{
     outline: none;
 }
+.grey{
+    color: #667887;
+}
 
 
 .sidenav {
@@ -43,15 +49,18 @@
     left: 0;
     padding: 15px;
     list-style: none;
-    border-right: 1px solid #e6ecf0;
+    border-right: .5px solid #e6ecf0;
+    z-index: 100;
     padding-left: 3%;
+    background-color: white;
 }
 .sidenav ul{
     list-style: none;
     padding-left: 0px;
+    margin-top: 3vh;
 }
 .sidenav li{
-    margin-top: 5px;
+    margin-top: 7px;
 }
 .sidenav .nav-link{
     color: #14171a;
@@ -60,7 +69,7 @@
     padding: 0px;
 }
 .sidenav .nav-link > div{
-    padding: 11px 20px 8px 12px;
+    padding: 10px 20px 8px 12px;
     border-radius: 25px;
     line-height: 0.9em;
     width: max-content;
@@ -69,6 +78,25 @@
     color: #17bf63;
     background-color: #e7f8ef;
     transition-duration: .2s;
+}
+.new-post-btn{
+    padding-left: 50px !important;
+    padding-right: 50px !important;
+    font-size: .95em;
+    font-weight: 530;
+}
+.user_account{
+    display: flex;
+    font-size: .82rem;
+    font-weight: normal;
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+    padding-left: 3px !important;
+}
+.user_account .small-profilepic{
+    transform: scale(.82);
+    margin-left: auto;
+    margin-top: auto;
 }
 
 
@@ -79,7 +107,6 @@
     min-height: 100vh;
     left: 21.8%;
     overflow: auto;
-    border-right: 1px solid #e6ecf0;
     display: flex;
     flex-basis: auto;
 }
@@ -92,17 +119,14 @@
 }
 .heading{
     position: fixed;
-    width: 47.3%;
+    width: 47.2%;
     top: 0px;
+    padding: 18px;
     border-bottom: .5px solid #e6ecf0;
     line-height: .7em;
     font-weight: 800;
     background-color: #fff;
     z-index: 1000;
-}
-
-.heading, .main-div-content{
-    padding: 18px;
 }
 
 .left-div-content{
@@ -111,20 +135,19 @@
 
 .new-post{
     display: flex;
-    padding: 18px 18px 8px 18px;
+    padding: 8px 18px 8px 18px;
 }
 .small-profilepic{
-    width: 3.6vw;
-    height: 3.3vw;
-    border-radius: 30px;
+    width: 3.1vw;
+    height: 3.1vw;
+    border-radius: 9999px;
     overflow: hidden;
     margin-right: 8px;
-    margin-left: -3px;
-    margin-top: -8px;
-    background-image: url(/media/profile_pic/ayush_avatar.jpg);
+    background-image: url(/media/profile_pic/modi.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    box-sizing: content-box;
 }
 
 .textarea {
@@ -136,7 +159,7 @@
     line-height: 20px;
     max-height: 68vh;
     outline: none;
-    margin-top: 2px;
+    margin-top: 10px;
     cursor: auto;
 }
 .textarea[contenteditable]:empty::before {
@@ -154,6 +177,10 @@
 .form-icon-btn{
     margin-left: -6px;
     margin-top: 5px;
+    cursor: pointer;
+    line-height: .82em;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #img-div{
@@ -205,12 +232,8 @@
 }
 
 
-
 .space{
-    height: 5px;
-    background-color: #e6ecf0;
-}
-.main-div-content{
+    height: 8px;
     background-color: #e6ecf0;
 }
 /*.main-div > div{
@@ -219,12 +242,77 @@
     overflow: auto;
 }*/
 
+.post{
+    background-color: white;
+    border-top: 1px solid #e6ecf0;
+    padding: 8px 18px;
+    display: flex;
+    font-size: .83em;
+}
+.post:hover{
+    background-color: #f5f8fa;
+    cursor: pointer;
+    transition-duration: .4s;
+}
+.post-main{
+    flex: 1;
+}
+.post-content{
+    margin-top: 5px;
+}
+svg{
+    margin-top: -.2em;
+}
+.post-image{
+    height: 290px;
+    width: 100%;
+    border-radius: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.post-actions{
+    display: flex;
+    flex: 1;
+    justify-content: space-evenly;
+}
+.post-actions > div{
+    padding: 2px;
+    line-height: 1.1em;
+}
+.post-actions div{
+    padding: 7px 10px;
+    border-radius: 15px;
+}
+.post-actions .like:hover{
+    color: #e0245e;
+    background-color: #f3e3eb;
+    transition-duration: .2s;
+}
+.post-actions .comment:hover{
+    color: #1da1f2;
+    background-color: #dfeffa;
+    transition-duration: .2s;
+}
+.post-actions .retweet:hover{
+    color: #17bf63;
+    background-color: #def2eb;
+    transition-duration: .2s;
+}
+
+
+
 .right-div{
     width: 30%;
     height: 100vh;
     position: fixed;
     right: .95%;
     height: 100vh;
+    border-left: .5px solid #e6ecf0;
+    z-index: 100;
+    background-color: white;
 }
 .right-div .head{
     padding: .9vh 1.5vw;
