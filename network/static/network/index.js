@@ -4,7 +4,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#popup-btn').onclick = show_popup;
     document.querySelector('.textarea').addEventListener('input', expand_control);
     document.querySelector('#insert-img').onchange = previewFile;
+    document.querySelector('.dropdown-toggle').onclick = drop_down;
 });
+
+function drop_down() {
+    document.querySelector('.dropdown-menu').style.display = 'block';
+    document.addEventListener('keydown', event => {
+        if(event.key === 'Escape') {
+            document.querySelector('.dropdown-menu').style.display = 'none';
+        }
+    });
+}
 
 function expand_control() {
     let btn = document.querySelector('.form-action-btns').querySelector('input[type=submit]');

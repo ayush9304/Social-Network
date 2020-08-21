@@ -2,7 +2,7 @@
 .body{
     display: flex;
     min-height: 100%;
-    font-family: sans-serif;
+    font-family: system-ui, sans-serif;
 }
 .btn{
     border-radius: 20px;
@@ -21,9 +21,9 @@
     border-color: transparent;
     color: #28a745;
     line-height: .82em;
-    padding: 7px;
+    padding: 4px;
     margin: 0px;
-    border-radius: 25px;
+    border-radius: 999px;
 }
 .icon-btn:hover{
     background-color: rgba(40, 167, 69, .1);
@@ -37,7 +37,10 @@
     outline: none;
 }
 .grey{
-    color: #667887;
+    color: #657786;
+}
+svg{
+    margin-top: -.2em;
 }
 
 
@@ -84,6 +87,7 @@
     padding-right: 50px !important;
     font-size: .95em;
     font-weight: 530;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 24px !important;
 }
 .user_account{
     display: flex;
@@ -119,7 +123,7 @@
 }
 .heading{
     position: fixed;
-    width: 47.2%;
+    width: 47.3%;
     top: 0px;
     padding: 18px;
     border-bottom: .5px solid #e6ecf0;
@@ -179,8 +183,7 @@
     margin-top: 5px;
     cursor: pointer;
     line-height: .82em;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 6px 10px;
 }
 
 #img-div{
@@ -242,12 +245,56 @@
     overflow: auto;
 }*/
 
+
+
+/********** Profile Section **********/
+.cover-image{
+    height: 210px;
+    background-image: url(/media/covers/modi_cover.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.profile-image{
+    width: 160px;
+    height: 160px;
+    position: absolute;
+    left: 15px;
+    top: 160px;
+    border-radius: 99999px;
+    border: 4px solid white;
+    background-image: url(/media/profile_pic/modi.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.profile-details{
+    height: 200px;
+    padding: 15px 20px;
+}
+.profile-details button{
+    padding-bottom: 0.3rem;
+}
+.profile-details > div{
+    margin-top: 52px;
+    font-size: .92em;
+}
+.profile-details h5{
+    font-weight: 800;
+    margin-bottom: 0px;
+}
+.profile-details a{
+    color: black;
+}
+
+
+/********* Posts Section **********/
 .post{
     background-color: white;
     border-top: 1px solid #e6ecf0;
     padding: 8px 18px;
     display: flex;
-    font-size: .83em;
+    font-size: .9em;
 }
 .post:hover{
     background-color: #f5f8fa;
@@ -257,11 +304,35 @@
 .post-main{
     flex: 1;
 }
+.post-user{
+    display: flex;
+    justify-content: space-between;
+}
+.dropdown-toggle::after{
+    content: none;
+}
+.dropdown-menu{
+    padding: 0px;
+    overflow: hidden;
+    box-shadow: rgba(101, 119, 134, 0.2) 0px 0px 15px, rgba(101, 119, 134, 0.15) 0px 0px 3px 1px;
+    border: 0px;
+    top: 0px;
+    float: right;
+}
+
+.dropdown-item{
+    padding-bottom: 15px;
+    padding-top: 15px;
+    font-size: .9em;
+    color: #3f4244;
+}
+.dropdown-item:active{
+    background-color: #f3f4f5;
+    color: rgb(65, 56, 56);
+    transition-duration: .1s;
+}
 .post-content{
     margin-top: 5px;
-}
-svg{
-    margin-top: -.2em;
 }
 .post-image{
     height: 290px;
@@ -277,10 +348,13 @@ svg{
     display: flex;
     flex: 1;
     justify-content: space-evenly;
+    color: #657786;
 }
 .post-actions > div{
     padding: 2px;
     line-height: 1.1em;
+    min-width: 10vw;
+    text-align: center;
 }
 .post-actions div{
     padding: 7px 10px;
@@ -305,10 +379,10 @@ svg{
 
 
 .right-div{
-    width: 30%;
+    width: 28%;
     height: 100vh;
     position: fixed;
-    right: .95%;
+    right: 2.95%;
     height: 100vh;
     border-left: .5px solid #e6ecf0;
     z-index: 100;
@@ -347,6 +421,41 @@ svg{
     padding-left: 1.5vw;
     padding-right: 1.5vw;
 }
+.suggestion-box{
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: #f5f8fa;
+}
+.suggestion-box > div{
+    border-bottom: .5px solid #e6ecf0;
+}
+.suggestion-header{
+    padding: 13px 15px;
+    line-height: .9em;
+    font-weight: 800;
+}
+.suggestion-user{
+    display: flex;
+    padding: 10px 15px;
+    font-size: .9em;
+}
+.suggestion-user:hover{
+    background-color: #edf0f4;
+    cursor: pointer;
+    transition-duration: .2s;
+}
+.user-details{
+    flex: 1;
+    line-height: 1.1em;
+    padding: 5px 0px 7px 0px;
+}
+.suggestion-user .btn{
+    padding: 0em 1em .09em 1em;
+}
+.suggestion-footer{
+    padding: 13px 15px;
+    line-height: .9em;
+}
 
 
 .right-div-content::-webkit-scrollbar{
@@ -382,7 +491,7 @@ svg{
 }
 
 .popup{
-    position: absolute;
+    position: fixed;
     width: 46vw;
     background-color: white;
     vertical-align: middle;
@@ -398,7 +507,7 @@ svg{
     animation-fill-mode: forwards;
 }
 .popup .popup-heading{
-    padding: 5px 8px;
+    padding: 7px 8px;
     position: sticky;
     top:0;
     background-color:white;
