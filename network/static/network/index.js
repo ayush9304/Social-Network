@@ -1,6 +1,5 @@
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOMContentLoaded');
     document.querySelector('#popup-btn').onclick = show_popup;
     document.querySelector('.textarea').addEventListener('input', expand_control);
     document.querySelector('#insert-img').onchange = previewFile;

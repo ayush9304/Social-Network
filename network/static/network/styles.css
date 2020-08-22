@@ -107,7 +107,7 @@ svg{
 
 .main-div{
     position: relative;
-    width: 78%;
+    width: 78.2%;
     min-height: 100vh;
     left: 21.8%;
     overflow: auto;
@@ -137,7 +137,7 @@ svg{
     margin-top: 7.5vh;
 }
 
-.new-post{
+.new-post > div{
     display: flex;
     padding: 8px 18px 8px 18px;
 }
@@ -147,7 +147,6 @@ svg{
     border-radius: 9999px;
     overflow: hidden;
     margin-right: 8px;
-    background-image: url(/media/profile_pic/modi.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -248,9 +247,11 @@ svg{
 
 
 /********** Profile Section **********/
+.profile-view{
+    display: none;
+}
 .cover-image{
     height: 210px;
-    background-image: url(/media/covers/modi_cover.jpg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -263,13 +264,11 @@ svg{
     top: 160px;
     border-radius: 99999px;
     border: 4px solid white;
-    background-image: url(/media/profile_pic/modi.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
 .profile-details{
-    height: 200px;
     padding: 15px 20px;
 }
 .profile-details button{
@@ -285,6 +284,9 @@ svg{
 }
 .profile-details a{
     color: black;
+}
+.bio{
+    margin-top: 8px;
 }
 
 
@@ -426,18 +428,20 @@ svg{
     overflow: hidden;
     background-color: #f5f8fa;
 }
-.suggestion-box > div{
-    border-bottom: .5px solid #e6ecf0;
-}
+/*.suggestion-box > div{
+    
+}*/
 .suggestion-header{
     padding: 13px 15px;
     line-height: .9em;
     font-weight: 800;
+    border-bottom: .5px solid #e6ecf0;
 }
 .suggestion-user{
     display: flex;
     padding: 10px 15px;
     font-size: .9em;
+    border-bottom: .5px solid #e6ecf0;
 }
 .suggestion-user:hover{
     background-color: #edf0f4;
@@ -455,6 +459,9 @@ svg{
 .suggestion-footer{
     padding: 13px 15px;
     line-height: .9em;
+}
+.suggestion-footer a{
+    text-decoration: none;
 }
 
 

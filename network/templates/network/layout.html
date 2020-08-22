@@ -31,7 +31,7 @@
         <div class="body">
             <div class="sidenav">
                 <a href="{% url 'index' %}" class="navbar-brand">
-                    <img src="{% static 'network/Images/logo.png' %}" height="40px">
+                    <img src="{% static 'network/Images/logo.png' %}" height="31px">
                 </a>
                 <div style="height: 100%;">
                     <div>
@@ -118,9 +118,9 @@
                             <li class="nav-item sidenav-user">
                                 <a href="#" class="nav-link">
                                     <div class="user_account">
-                                        <div class="small-profilepic" style="float: left;"></div>
+                                        <div class="small-profilepic" style="float: left; background-image: url(/media/{{user.profile_pic}})"></div>
                                         <div style="height: 2.7vw; margin: auto;">
-                                            <div style="margin-top: 4px;"><strong>Akash Kumar</strong></div>
+                                            <div style="margin-top: 4px;"><strong>{{user.first_name}} {{user.last_name}}</strong></div>
                                             <div class="grey" style="margin-top: 4px;">@{{ user.username }}</div>
                                         </div>
                                     </div>

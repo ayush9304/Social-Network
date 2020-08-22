@@ -6,67 +6,70 @@
             <nav class="head heading">Profile</nav>
             <div class="left-div-content">
                 <div class="posts-view">
-                    <div class="new-post" style="display: none;">
+                    <div class="new-post">
                         <div>
-                            <div class="small-profilepic"></div>
-                        </div>
-                        <div class="form-area">
-                            <form action="#">
-                                <span class="textarea" role="textbox" contenteditable></span>
-                                <div id='img-div'>
-                                    <button id="del-img">
-                                        <svg width="1.55em" height="1.55em" viewBox="0 0 24 24" class="r-jwli3a r-4qtqp9 r-yyyyoo r-1q142lx r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1srniue" fill="#fff">
-                                            <g><path d="M13.414 12l5.793-5.793c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0L12 10.586 6.207 4.793c-.39-.39-1.023-.39-1.414 0s-.39 1.023 0 1.414L10.586 12l-5.793 5.793c-.39.39-.39 1.023 0 1.414.195.195.45.293.707.293s.512-.098.707-.293L12 13.414l5.793 5.793c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L13.414 12z"></path></g>
-                                        </svg>
-                                    </button>
-                                    <img src="{% static 'network/Images/spinner.gif' %}" id='spinner' height="70px">
-                                </div>
-                                <div class="form-action-btns">
-                                    <input name='picture' accept="image/jpeg,image/png,image/webp,image/gif" type="file" style="display: none;" id="insert-img" data-focusable="true">
-                                    <label for="insert-img" class="icon-btn form-icon-btn">
-                                        <svg width="1.1em" height="1.1em" viewBox="0 -1 16 16" class="bi bi-image" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M14.002 2h-12a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-12-1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12z"/>
-                                            <path d="M10.648 7.646a.5.5 0 0 1 .577-.093L15.002 9.5V14h-14v-2l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71z"/>
-                                            <path fill-rule="evenodd" d="M4.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-                                        </svg><span style="font-size: 0.9em; vertical-align: middle;">&nbsp;Photo</span>
-                                    </label>
-                                    <input type="submit" class="btn btn-success float-right" value="Post" disabled>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="profile-view" style="display: block;">
-                    <div class="cover-image"></div>
-                    <div class="profile-image"></div>
-                    <div class="profile-details">
-                        <button class="btn btn-outline-success float-right">Edit Profile</button>
-                        <div>
-                            <h5>Narendra Modi</h5>
-                            <div class="grey">@narendramodi</div>
-                            <div class="grey" style="padding: 8px 0px;">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
-                                    <path fill-rule="evenodd" d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-                                </svg>
-                                &nbsp;Joined January 2009
-                            </div>
                             <div>
-                                <a href="#">
-                                    <strong>2349</strong>&nbsp;<span class="grey">Following</span>
-                                </a>
-                                &ensp;
-                                <a href="#">
-                                    <strong>61.3M</strong>&nbsp;<span class="grey">Followers</span>
-                                </a>
+                                <div class="small-profilepic" style="background-image: url(/media/{{user.profile_pic}});"></div>
+                            </div>
+                            <div class="form-area">
+                                <form action="#">
+                                    <span class="textarea" role="textbox" contenteditable></span>
+                                    <div id='img-div'> 
+                                        <button id="del-img">
+                                            <svg width="1.55em" height="1.55em" viewBox="0 0 24 24" class="r-jwli3a r-4qtqp9 r-yyyyoo r-1q142lx r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1srniue" fill="#fff">
+                                                <g><path d="M13.414 12l5.793-5.793c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0L12 10.586 6.207 4.793c-.39-.39-1.023-.39-1.414 0s-.39 1.023 0 1.414L10.586 12l-5.793 5.793c-.39.39-.39 1.023 0 1.414.195.195.45.293.707.293s.512-.098.707-.293L12 13.414l5.793 5.793c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L13.414 12z"></path></g>
+                                            </svg>
+                                        </button>
+                                        <img src="{% static 'network/Images/spinner.gif' %}" id='spinner' height="70px">
+                                    </div>
+                                    <div class="form-action-btns">
+                                        <input name='picture' accept="image/jpeg,image/png,image/webp,image/gif" type="file" style="display: none;" id="insert-img" data-focusable="true">
+                                        <label for="insert-img" class="icon-btn form-icon-btn">
+                                            <svg width="1.1em" height="1.1em" viewBox="0 -1 16 16" class="bi bi-image" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" d="M14.002 2h-12a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-12-1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12z"/>
+                                                <path d="M10.648 7.646a.5.5 0 0 1 .577-.093L15.002 9.5V14h-14v-2l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71z"/>
+                                                <path fill-rule="evenodd" d="M4.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                                            </svg><span style="font-size: 0.9em; vertical-align: middle;">&nbsp;Photo</span>
+                                        </label>
+                                        <input type="submit" class="btn btn-success float-right" value="Post" disabled>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
+                    <div class="profile-view">
+                        <div class="cover-image" style="background-image: url(/media/{{user.cover}})"></div>
+                        <div class="profile-image" style="background-image: url(/media/{{user.profile_pic}})"></div>
+                        <div class="profile-details">
+                            <button class="btn btn-outline-success float-right">Edit Profile</button>
+                            <div>
+                                <h5>{{user.first_name}} {{user.last_name}}</h5>
+                                <div class="grey">@{{user.username}}</div>
+                                <div class="bio">{{user.bio}}</div>
+                                <div class="grey" style="padding: 8px 0px;">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+                                        <path fill-rule="evenodd" d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                    </svg>
+                                    &nbsp;Joined {{user.date_joined | date:"F Y"}}
+                                </div>
+                                <div>
+                                    <a href="#">
+                                        <strong>2349</strong>&nbsp;<span class="grey">Following</span>
+                                    </a>
+                                    &ensp;
+                                    <a href="#">
+                                        <strong>61.3M</strong>&nbsp;<span class="grey">Followers</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="space"></div>
                     <div class="main-div-content">
                         <div class="post">
                             <div>
-                                <div class="small-profilepic">
+                                <div class="small-profilepic" style="background-image: url(/media/{{user.profile_pic}})">
                                 </div>
                             </div>
                             <div>
