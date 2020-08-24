@@ -8,8 +8,10 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("login", views.login_view, name="login"),
-    path("logout", views.logout_view, name="logout"),
-    path("register", views.register, name="register")
+    path("n/login", views.login_view, name="login"),
+    path("n/logout", views.logout_view, name="logout"),
+    path("n/register", views.register, name="register"),
+    path("<str:username>", views.profile, name='profile'),
+    path('n/createpost', views.create_post, name="createpost")
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

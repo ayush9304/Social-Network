@@ -68,7 +68,7 @@ svg{
 .sidenav .nav-link{
     color: #14171a;
     line-height: .7em;
-    font-weight: 600;
+    font-weight: 700;
     padding: 0px;
 }
 .sidenav .nav-link > div{
@@ -83,8 +83,8 @@ svg{
     transition-duration: .2s;
 }
 .new-post-btn{
-    padding-left: 50px !important;
-    padding-right: 50px !important;
+    padding-left: 55px !important;
+    padding-right: 55px !important;
     font-size: .95em;
     font-weight: 530;
     box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 24px !important;
@@ -102,21 +102,22 @@ svg{
     margin-left: auto;
     margin-top: auto;
 }
+.active a{
+    color: #28a745 !important;
+}
 
 
 
 .main-div{
     position: relative;
-    width: 78.2%;
+    width: 47.25%;
     min-height: 100vh;
     left: 21.8%;
-    overflow: auto;
-    display: flex;
-    flex-basis: auto;
+    /*display: flex;
+    flex-basis: auto;*/
 }
 .left-div{
     position: relative;
-    width: 60.7%;
 }
 .head{
     height: 7.5vh;
@@ -168,6 +169,8 @@ svg{
 .textarea[contenteditable]:empty::before {
     content: "What's happening?";
     color: gray;
+}
+.textarea[contenteditable]:empty::before:hover{
     cursor: auto;
 }
 .form-area{
@@ -247,26 +250,25 @@ svg{
 
 
 /********** Profile Section **********/
-.profile-view{
-    display: none;
-}
 .cover-image{
     height: 210px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    background-color: #ccd6dd;
 }
 .profile-image{
     width: 160px;
     height: 160px;
     position: absolute;
     left: 15px;
-    top: 160px;
+    top: 110px;
     border-radius: 99999px;
     border: 4px solid white;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    background-color: white;
 }
 .profile-details{
     padding: 15px 20px;
@@ -303,6 +305,10 @@ svg{
     cursor: pointer;
     transition-duration: .4s;
 }
+.post a{
+    text-decoration: none;
+    color: black;
+}
 .post-main{
     flex: 1;
 }
@@ -318,8 +324,9 @@ svg{
     overflow: hidden;
     box-shadow: rgba(101, 119, 134, 0.2) 0px 0px 15px, rgba(101, 119, 134, 0.15) 0px 0px 3px 1px;
     border: 0px;
-    top: 0px;
-    float: right;
+    position: absolute;
+    left: calc(x);
+    z-index: 1100;
 }
 
 .dropdown-item{
@@ -385,9 +392,7 @@ svg{
     height: 100vh;
     position: fixed;
     right: 2.95%;
-    height: 100vh;
     border-left: .5px solid #e6ecf0;
-    z-index: 100;
     background-color: white;
 }
 .right-div .head{
@@ -423,14 +428,14 @@ svg{
     padding-left: 1.5vw;
     padding-right: 1.5vw;
 }
-.suggestion-box{
+.suggestion-box, .guest-box{
     border-radius: 15px;
     overflow: hidden;
     background-color: #f5f8fa;
 }
-/*.suggestion-box > div{
-    
-}*/
+.user-details #user-name:hover{
+    text-decoration: underline;
+}
 .suggestion-header{
     padding: 13px 15px;
     line-height: .9em;
@@ -448,6 +453,10 @@ svg{
     cursor: pointer;
     transition-duration: .2s;
 }
+.suggestion-user  a{
+    color: black;
+    text-decoration: none;
+}
 .user-details{
     flex: 1;
     line-height: 1.1em;
@@ -463,6 +472,23 @@ svg{
 .suggestion-footer a{
     text-decoration: none;
 }
+
+.guest-header{
+    padding: 13px 15px 8px 15px;
+    line-height: .9em;
+    font-weight: bolder;
+}
+.guest-header h5{
+    margin-bottom: 0px;
+}
+.guest-content{
+    padding: 0px 15px 10px 15px;
+    font-size: .88em;
+}
+.guest-btn{
+    padding: 0px 15px 15px 15px;
+}
+
 
 
 .right-div-content::-webkit-scrollbar{
@@ -488,62 +514,109 @@ svg{
     z-index: 5499;
 }
 
-@keyframes popup{
+@keyframes large_popup{
     0%{
-        transform: scale(.92);
+        transform: scale(.9);
     }
     100%{
         transform: scale(1);
     }
 }
 
+@keyframes small_popup{
+    0%{
+        transform: scale(.8);
+    }
+    100%{
+        transform: scale(1);
+    }
+}
+
+
 .popup{
-    position: fixed;
-    width: 46vw;
-    background-color: white;
-    vertical-align: middle;
-    top: 6vh;
-    left: 27vw;
-    max-height: 88vh;
-    overflow: hidden;
     display: none;
-    z-index: 5500;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999999;
+}
+.popup .btn{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.small-popup{
+    display: none;
+    position: absolute;
+    top: 207px;
+    left: 37%;
+    width: 23%;
+    transform: translate(-50%,-50%);
+    background-color: white;
+    align-items: center;
+    text-align: center;
+    padding: 25px 20px;
+    overflow: auto;
     border-radius: 17px;
-    animation-name: popup;
-    animation-duration: .15s;
+    animation-name: small_popup;
+    animation-duration: .2s;
     animation-fill-mode: forwards;
 }
-.popup .popup-heading{
-    padding: 7px 8px;
-    position: sticky;
-    top:0;
-    background-color:white;
-    border-bottom: 1.5px solid #ccd6dd;
-}
-
-.popup .popup-content{
-    text-align: center;
-    margin: 0px 5px;
-    padding: 0px 18px 0px 18px;
-    overflow: auto;
-    max-height: 80vh;
-}
-.popup-center{
-    top: 50%;
-    transform: translateY(-50%);
-}
-.blackout-div{
+.large-popup{
+    display: none;
     position: absolute;
+    top: 34px;
+    left: 25%;
+    width: 47.5%;
+    max-height: 90vh;
+    transform: translate(-50%,-50%);
+    background-color: white;
+    padding: 24px 20px 15px 20px;
+    overflow: auto;
+    border-radius: 17px;
+    animation-name: large_popup;
+    animation-duration: .2s;
+    animation-fill-mode: forwards;
 }
+.large-popup div{
+    display: flex;
+}
+.large-popup form{
+    margin-top: 5px;
+    width: 100%;
+}
+.large-popup textarea{
+    width: 100%;
+    outline: none;
+    border: none;
+}
+.large-popup hr{
+    margin: 0px;
+}
+.large-popup textarea:focus hr{
+    color: #28a745;
+}
+.large-popup .form-action-btns{
+    display: flex;
+    justify-content: space-between;
+}
+.large-popup .float-right{
+    margin-left: 10px;
+}
+/*.blackout{
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+}*/
 
-.popup-content::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
     background: none;
 }
-.popup-content::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 10px;
     height: 10px;
 }
-.popup-content::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background: #ccc;
     border-radius: 5px;
 }

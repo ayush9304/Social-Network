@@ -6,29 +6,63 @@
         <title>{% block title %}Social Network{% endblock %}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="{% static 'network/styles.css' %}" rel="stylesheet">
-        <script type="text/javascript" src="{% static 'network/index.js' %}"></script>
+        <script type="text/javascript" src="{% static 'network/layout.js' %}"></script>
+        {% block head %}
+        {% endblock %}
     </head>
     <body>
 
-        <div class="blackout"></div>
         <div class="popup">
-            <div class="popup-heading">
-                <button class="icon-btn close-popup-btn">
-                    <!--<svg width="1.7em" height="1.7em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
-                        <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
-                    </svg>-->
-                    <!--new below-->
-                    <svg width="1.1em" height="1.1em" viewBox="1 0 22 22" fill='currentColor' class="r-nw8l94 r-4qtqp9 r-yyyyoo r-1q142lx r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1srniue">
-                        <g><path d="M13.414 12l5.793-5.793c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0L12 10.586 6.207 4.793c-.39-.39-1.023-.39-1.414 0s-.39 1.023 0 1.414L10.586 12l-5.793 5.793c-.39.39-.39 1.023 0 1.414.195.195.45.293.707.293s.512-.098.707-.293L12 13.414l5.793 5.793c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L13.414 12z"></path></g>
-                    </svg>
-                </button>
+            <div class="small-popup">
+                <div style="margin-bottom: 10px; font-size: 1.1em;"><strong>Delete Post?</strong></div>
+                <div class="grey" style="font-size: .85em; margin-bottom: 15px;">
+                    This can’t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from Network search results.
+                </div>
+                <div style="padding: 0px 5%;">
+                    <button class="btn btn-light float-left">Cancel</button>
+                    <button class="btn btn-danger float-right">Delete</button>
+                </div>
             </div>
-            <div class="popup-content">
-                Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>Ayush<br>
+            <div class="large-popup">
+                <div>
+                    <div>
+                        <div class="small-profilepic" style="background-image: url(/media/{{user.profile_pic}});"></div>
+                    </div>
+                    <div class="form-area">
+                        <form action="{% url 'createpost' %}" method="POST" class="newpost" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <textarea name="text" placeholder="What's happening?" rows="5"></textarea>
+                            <div id='img-div'> 
+                                <button id="del-img" type='button'>
+                                    <svg width="1.55em" height="1.55em" viewBox="0 0 24 24" class="r-jwli3a r-4qtqp9 r-yyyyoo r-1q142lx r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1srniue" fill="#fff">
+                                        <g><path d="M13.414 12l5.793-5.793c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0L12 10.586 6.207 4.793c-.39-.39-1.023-.39-1.414 0s-.39 1.023 0 1.414L10.586 12l-5.793 5.793c-.39.39-.39 1.023 0 1.414.195.195.45.293.707.293s.512-.098.707-.293L12 13.414l5.793 5.793c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L13.414 12z"></path></g>
+                                    </svg>
+                                </button>
+                                <img src="{% static 'network/Images/spinner.gif' %}" id='spinner' height="70px">
+                            </div>
+                            <hr>
+                            <div class="form-action-btns">
+                                <div>
+                                    <input name='picture' accept="image/jpeg,image/png,image/webp,image/gif" type="file" style="display: none;" id="insert-img" data-focusable="true">
+                                    <label for="insert-img" class="icon-btn form-icon-btn">&nbsp;
+                                        <svg width="1.1em" height="1.4em" viewBox="0 -2 16 16" class="bi bi-image" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M14.002 2h-12a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-12-1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12z"/>
+                                            <path d="M10.648 7.646a.5.5 0 0 1 .577-.093L15.002 9.5V14h-14v-2l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71z"/>
+                                            <path fill-rule="evenodd" d="M4.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                                        </svg><span style="font-size: 0.9em; vertical-align: middle;">&nbsp;Photo</span>&nbsp;
+                                    </label>
+                                </div>
+                                <div>
+                                    <button class="btn btn-light float-right" type="button" onclick="remove_popup()">Cancel</button>
+                                    <input type="submit" class="btn btn-success float-right" value="&nbsp;Post&nbsp;" disabled>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="body">
+        <div class="body" data-page="{{page}}">
             <div class="sidenav">
                 <a href="{% url 'index' %}" class="navbar-brand">
                     <img src="{% static 'network/Images/logo.png' %}" height="31px">
@@ -37,7 +71,7 @@
                     <div>
                         <div>
                             <ul>
-                                <li class="nav-item">
+                                <li class="nav-item" id="all_posts">
                                 <a href="{% url 'index' %}" class="nav-link">
                                     <div>
                                         <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-card-heading" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -50,7 +84,7 @@
                                 </a>
                                 </li>
                                 {% if user.is_authenticated %}
-                                    <li class="nav-item">
+                                    <li class="nav-item" id="following">
                                         <a href="#" class="nav-link">
                                             <div>
                                                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-people" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -60,8 +94,8 @@
                                             </div>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                    <li class="nav-item" id="profile">
+                                        <a href="{% url 'profile' user.username %}" class="nav-link">
                                             <div>
                                                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                     <path fill-rule="evenodd" d="M13 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM3.022 13h9.956a.274.274 0 0 0 .014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 0 0 .022.004zm9.974.056v-.002.002zM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
@@ -70,7 +104,7 @@
                                             </div>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item" id="logout">
                                         <a href="{% url 'logout' %}" class="nav-link">
                                             <div>
                                                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-door-open" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -83,7 +117,7 @@
                                         </a>
                                     </li>
                                 {% else %}
-                                    <li class="nav-item">
+                                    <li class="nav-item" id="login">
                                         <a href="{% url 'login' %}" class="nav-link">
                                             <div>
                                                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-door-closed" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -95,14 +129,14 @@
                                             </div>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item" id="Signup">
                                         <a href="{% url 'register' %}" class="nav-link">
                                             <div>
                                                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-person-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                     <path fill-rule="evenodd" d="M11 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM1.022 13h9.956a.274.274 0 0 0 .014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 0 0 .022.004zm9.974.056v-.002.002zM6 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm4.5 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
                                                     <path fill-rule="evenodd" d="M13 7.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0v-2z"/>
                                                 </svg>
-                                                &nbsp;&nbsp;Register
+                                                &nbsp;&nbsp;Sign Up
                                             </div>
                                         </a>
                                     </li>
@@ -110,13 +144,13 @@
                             </ul>
                         </div>
                         {% if user.is_authenticated %}
-                            <button id="popup-btn" class="btn btn-success new-post-btn">Create Post</button>
+                            <button id="popup-btn" class="btn btn-success new-post-btn" onclick="createpost()">Create Post</button>
                         {% endif %}
                     </div>
                     <div style="position: absolute; bottom: 10px;">
                         {% if user.is_authenticated %}    
                             <li class="nav-item sidenav-user">
-                                <a href="#" class="nav-link">
+                                <a href="{% url 'profile' user.username %}" class="nav-link">
                                     <div class="user_account">
                                         <div class="small-profilepic" style="float: left; background-image: url(/media/{{user.profile_pic}})"></div>
                                         <div style="height: 2.7vw; margin: auto;">
@@ -133,6 +167,72 @@
             
             {% block body %}
             {% endblock %}
+
+            <div class="right-div">
+                <nav class="head">
+                    <form action="#">
+                        <div class="search-div">
+                            <div>
+                                <svg width="1em" height="1.6em" viewBox="0 0 16 6" class="bi bi-search" fill="#6d7e8c" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                                    <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                                </svg>
+                            </div>
+                            <input type="text" name="query" id="search-box" placeholder="Search Twitter">
+                        </div>
+                    </form>
+                </nav>
+                <div class='right-div-content'>
+                    <div class="space" style="background-color: white;"></div>
+                    {% if user.is_authenticated %}
+                        <div class="suggestion-box">
+                            <div class="suggestion-header">
+                                You might know
+                            </div>
+                            {% for suggestion in suggestions %}
+                                <div class="suggestion-user">
+                                    <div>
+                                        <a href="{% url 'profile' suggestion.username %}">
+                                            <div class="small-profilepic" style="background-image: url(/media/{{suggestion.profile_pic}})"></div>
+                                        </a>
+                                    </div>
+                                    <div class="user-details">
+                                        <a href="{% url 'profile' suggestion.username %}">
+                                            <div id="user-name">
+                                                
+                                                <strong>
+                                                    {{suggestion.first_name}} {{suggestion.last_name}}
+                                                </strong>
+                                            </div>
+                                            <div class="grey">@{{suggestion.username}}</div>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-outline-success" type="button">Follow</button>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="suggestion-footer">
+                                <a href="#">Show more</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="guest-box">
+                            <center>
+                                <div class="guest-header">
+                                    <h5>New to Network?</h5>
+                                </div>
+                                <div class="grey guest-content">
+                                    Sign up now to get connected with people you know.
+                                </div>
+                                <div class="guest-btn">
+                                    <button class="btn btn-success btn-block" type="button">Sign Up</button>
+                                </div>
+                            </center>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
         </div>
         
     </body>
