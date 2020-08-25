@@ -4,21 +4,41 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector("#"+active).classList.add('active');
 });
 
-function drop_down() {
-    document.querySelector('.dropdown-menu').style.display = 'block';
+function drop_down(event) {
+    let drop_down = event.target.parentElement.querySelector(".dropdown-menu");
+    drop_down.style.display = 'block';
+    //document.querySelector('.dropdown-menu').style.display = 'block';
     document.addEventListener('keydown', event => {
         if(event.key === 'Escape') {
-            document.querySelector('.dropdown-menu').style.display = 'none';
+            drop_down.style.display = 'none';
         }
     });
 }
 
+function remove_drop_down(event) {
+    setTimeout(() => {
+        event.target.parentElement.querySelector(".dropdown-menu").style.display = 'none';
+    },100);
+}
+
 function createpost() {
-    document.querySelector('.popup').style.display = 'block';
-    document.querySelector('.popup').querySelector('.large-popup').style.display = 'block'
+    let popup = document.querySelector(".popup");
+    popup.style.display = 'block';
+    popup.querySelector('.large-popup').style.display = 'block'
     document.querySelector('.body').setAttribute('aria-hidden', 'true');
     document.querySelector('body').style.overflow = "hidden";
     document.querySelector('#insert-img').onchange = previewFile;
+    popup.querySelector('.large-popup').querySelector("#post-text").addEventListener('input', (event) => {
+        if(event.target.value.trim().length > 0) {
+            popup.querySelector('.submit-btn').disabled = false;
+        }
+        else if(event.target.parentElement.querySelector('#insert-img').value) {
+            popup.querySelector('.submit-btn').disabled = false;
+        }
+        else {
+            popup.querySelector('.submit-btn').disabled = true;
+        }
+    });
 }
 
 function remove_popup() {
@@ -26,6 +46,8 @@ function remove_popup() {
     document.querySelector('.body').setAttribute('aria-hidden', 'false');
     document.querySelector('body').style.overflow = "auto";
 }
+
+
 
 
 function previewFile() {
@@ -72,5 +94,7 @@ function del_image() {
     document.querySelector('input[type=file]').value = '';
     document.querySelector('#img-div').style.backgroundImage = '';
     document.querySelector('#img-div').style.display = 'none';
-    document.querySelector('.form-action-btns').querySelector('input[type=submit]').disabled = true;
+    if(document.querySelector('.large-popup').querySelector('#post-text').value.trim().length <= 0) {
+        document.querySelector('.large-popup').querySelector('.form-action-btns').querySelector('input[type=submit]').disabled = true;
+    }
 }

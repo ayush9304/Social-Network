@@ -40,7 +40,7 @@
     color: #657786;
 }
 svg{
-    margin-top: -.2em;
+    vertical-align: text-bottom;
 }
 
 
@@ -296,7 +296,7 @@ svg{
 .post{
     background-color: white;
     border-top: 1px solid #e6ecf0;
-    padding: 8px 18px;
+    padding: 8px 18px 5px 18px;
     display: flex;
     font-size: .9em;
 }
@@ -340,6 +340,9 @@ svg{
     color: rgb(65, 56, 56);
     transition-duration: .1s;
 }
+.dropdown-item:focus{
+    outline: none;
+}
 .post-content{
     margin-top: 5px;
 }
@@ -348,7 +351,6 @@ svg{
     width: 100%;
     border-radius: 15px;
     margin-top: 10px;
-    margin-bottom: 10px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -356,30 +358,47 @@ svg{
 .post-actions{
     display: flex;
     flex: 1;
+    align-items: stretch;
     justify-content: space-evenly;
     color: #657786;
+    margin-top: 10px;
 }
 .post-actions > div{
-    padding: 2px;
-    line-height: 1.1em;
-    min-width: 10vw;
+    line-height: 1em;
+    /*min-width: 10vw;*/
     text-align: center;
-}
-.post-actions div{
-    padding: 7px 10px;
-    border-radius: 15px;
+    padding: 7px 0px;
+    display: flex;
 }
 .post-actions .like:hover{
     color: #e0245e;
-    background-color: #f3e3eb;
     transition-duration: .2s;
 }
 .post-actions .comment:hover{
     color: #1da1f2;
+    transition-duration: .2s;
+}
+.post-actions .save:hover{
+    color: #17bf63;
+    transition-duration: .2s;
+}
+.post-actions .svg-span{
+    padding: 6px;
+    max-height: max-content;
+    border-radius: 999px;
+    line-height: .68em;
+}
+.post-actions .like:hover .svg-span{
+    color: #e0245e;
+    background-color: #f3e3eb;
+    transition-duration: .2s;
+}
+.post-actions .comment:hover .svg-span{
+    color: #1da1f2;
     background-color: #dfeffa;
     transition-duration: .2s;
 }
-.post-actions .retweet:hover{
+.post-actions .save:hover .svg-span{
     color: #17bf63;
     background-color: #def2eb;
     transition-duration: .2s;

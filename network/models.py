@@ -14,7 +14,7 @@ class User(AbstractUser):
 class Post(models.Model):
     creater = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     date_created = models.DateTimeField(default=timezone.now)
-    content_text = models.CharField(max_length=140, blank=True)
+    content_text = models.TextField(max_length=140, blank=True)
     content_image = models.ImageField(upload_to='posts/', blank=True)
 
     def __str__(self):
@@ -31,15 +31,22 @@ class Comment(models.Model):
     
 class Follower(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers')
-    follower = models.ManyToManyField(User, related_name='following')
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='following')
 
     def __str__(self):
         return f"User: {self.user}"
     
 class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likers')
-    liker = models.ManyToManyField(User, related_name='likes')
+    liker = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='likes')
 
     def __str__(self):
         return f"Post[{self.post}]"
     
+class Saved(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user} : [{self.post}]"
+        

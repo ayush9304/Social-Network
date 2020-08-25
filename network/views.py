@@ -96,9 +96,6 @@ def create_post(request):
             pic = request.FILES.get('picture')
             try:
                 post = Post.objects.create(creater=request.user, content_text=text, content_image=pic)
-                print(f"//////////////////////////////text: {text}///////////////////////////////")
-                print(f"//////////////////////////////pic: {pic}///////////////////////////////")
-                print(f"//////////////////////////////post: {post}///////////////////////////////")
                 return HttpResponseRedirect(reverse('index'))
             except Exception as e:
                 return HttpResponse(e)
