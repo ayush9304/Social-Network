@@ -86,6 +86,7 @@ def profile(request, username):
     return render(request, 'network/index.html', {
         "username": user,
         "posts": reversed(posts),
+        "posts_count": posts.count(),
         "suggestions": suggestions,
         "page": "profile",
         "profile": True,
