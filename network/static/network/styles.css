@@ -24,10 +24,12 @@
     padding: 4px;
     margin: 0px;
     border-radius: 999px;
+    width: max-content;
 }
 .icon-btn:hover{
     background-color: rgba(40, 167, 69, .1);
     transition-duration: .35s;
+    cursor: pointer;
 }
 .icon-btn:active{
     background-color: rgba(40, 167, 69, .23);
@@ -40,7 +42,7 @@
     color: #657786;
 }
 svg{
-    vertical-align: text-bottom;
+    vertical-align: text-top;
 }
 
 
@@ -124,7 +126,7 @@ svg{
 }
 .heading{
     position: fixed;
-    width: 47.3%;
+    width: 47.255%;
     top: 0px;
     padding: 18px;
     border-bottom: .5px solid #e6ecf0;
@@ -296,7 +298,7 @@ svg{
 .post{
     background-color: white;
     border-top: 1px solid #e6ecf0;
-    padding: 8px 18px 5px 18px;
+    padding: 8px 18px 8px 18px;
     display: flex;
     font-size: .9em;
 }
@@ -365,9 +367,9 @@ svg{
 }
 .post-actions > div{
     line-height: 1em;
-    /*min-width: 10vw;*/
+    padding-left: 10px;
+    padding-right: 10px;
     text-align: center;
-    padding: 7px 0px;
     display: flex;
 }
 .post-actions .like:hover{
@@ -391,16 +393,19 @@ svg{
 .post-actions .like:hover .svg-span{
     color: #e0245e;
     background-color: #f3e3eb;
+    box-shadow: 0 0 0 3px #f3e3eb;
     transition-duration: .2s;
 }
 .post-actions .comment:hover .svg-span{
     color: #1da1f2;
     background-color: #dfeffa;
+    box-shadow: 0 0 0 3px #dfeffa;
     transition-duration: .2s;
 }
 .post-actions .save:hover .svg-span{
     color: #17bf63;
     background-color: #def2eb;
+    box-shadow: 0 0 0 3px #def2eb;
     transition-duration: .2s;
 }
 
@@ -622,6 +627,45 @@ svg{
 .large-popup .float-right{
     margin-left: 10px;
 }
+
+
+.login-popup{
+    /*display: none;*/
+    position: absolute;
+    top: 65px;
+    left: 25%;
+    width: 47.5%;
+    max-height: 90vh;
+    transform: translate(-50%,-50%);
+    background-color: white;
+    padding: 15px 20px 15px 20px;
+    overflow: auto;
+    border-radius: 17px;
+    animation-name: large_popup;
+    animation-duration: .2s;
+    animation-fill-mode: forwards;
+}
+.login-popup .icon-div{
+    margin-top: 40px;
+}
+.login-popup .icon-btn{
+    margin-left: -10px;
+    margin-top: -5px;
+}
+.login-popup .main_text-div{
+    margin-top: 55px;
+}
+.login-popup .btn-div{
+    margin-top: 65px;
+    width: 350px;
+    margin-bottom: 35px;
+}
+.login-popup .btn-div button{
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
 /*.blackout{
     width: 100vw;
     height: 100vh;

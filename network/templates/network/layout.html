@@ -19,7 +19,7 @@
                     This can’t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from Network search results.
                 </div>
                 <div style="padding: 0px 5%;">
-                    <button class="btn btn-light float-left">Cancel</button>
+                    <button class="btn btn-light float-left" onclick="remove_popup()">Cancel</button>
                     <button class="btn btn-danger float-right">Delete</button>
                 </div>
             </div>
@@ -60,6 +60,31 @@
                         </form>
                     </div>
                 </div>
+            </div>
+            <div class="login-popup">
+                <div onclick="remove_popup()" class="icon-btn">
+                    <svg width="1.6em" height="1.6em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
+                        <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
+                    </svg>
+                </div>
+                <center>
+                    <div class="icon-div">
+                        <svg width="2.5em" height="2.5em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="#e0245e" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                        </svg>
+                    </div>
+                    <div class="main_text-div">
+                        <h2></h2>
+                        <div class="grey">
+                            Join Network today to connect with people you know.
+                        </div>
+                    </div>
+                    <div class="btn-div">
+                        <button class="btn btn-success btn-block">Sign Up</button>
+                        <button class="btn btn-outline-success btn-block">Login</button>
+                    </div>
+                </center>
             </div>
         </div>
         <div class="body" data-page="{{page}}">
@@ -171,6 +196,11 @@
                                 </a>
                             </li>
                         {% endif %}
+                        {% if user.is_authenticated %}
+                            <input type="hidden" id="user_is_authenticated" value="True">
+                        {% else %}
+                            <input type="hidden" id="user_is_authenticated" value="False">
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -244,6 +274,6 @@
                 </div>
             </div>
         </div>
-        
+
     </body>
 </html>

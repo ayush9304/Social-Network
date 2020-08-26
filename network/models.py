@@ -16,9 +16,14 @@ class Post(models.Model):
     date_created = models.DateTimeField(default=timezone.now)
     content_text = models.TextField(max_length=140, blank=True)
     content_image = models.ImageField(upload_to='posts/', blank=True)
+    likes_count = models.IntegerField(default=0)
+    comment_count = models.IntegerField(default=0)
 
     def __str__(self):
         return f"Post ID: {self.id} (creater: {self.creater})"
+
+    def append(self, name, value):
+        self.name = value
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')

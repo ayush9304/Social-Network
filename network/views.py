@@ -3,6 +3,8 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
 
@@ -11,13 +13,17 @@ def index(request):
     posts = Post.objects.all().order_by('-date_created')
     followings = []
     suggestions = []
+    likes = []
     if request.user.is_authenticated:
         followings = Follower.objects.filter(follower=request.user).values_list('user', flat=True)
         suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6]
+    #for post in posts:
+    #    likes.append(Like.objects.filter(post=post))
     return render(request, "network/index.html", {
         "posts": posts,
         "suggestions": suggestions,
         "page": "all_posts"
+        #"likes":likes
     })
 
 
@@ -89,13 +95,52 @@ def profile(request, username):
         "follower": False
     })
 
+@login_required
 def create_post(request):
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        pic = request.FILES.get('picture')
+        try:
+            post = Post.objects.create(creater=request.user, content_text=text, content_image=pic)
+            return HttpResponseRedirect(reverse('index'))
+        except Exception as e:
+            return HttpResponse(e)
+    else:
+        return HttpResponse("Method must be 'POST'")
+
+
+@csrf_exempt
+def like_post(request, id):
     if request.user.is_authenticated:
-        if request.method == 'POST':
-            text = request.POST.get('text')
-            pic = request.FILES.get('picture')
+        if request.method == 'PUT':
+            post = Post.objects.get(pk=id)
+            print(post)
             try:
-                post = Post.objects.create(creater=request.user, content_text=text, content_image=pic)
-                return HttpResponseRedirect(reverse('index'))
-            except Exception as e:
+                like = Like.objects.create(post=post, liker=request.user)
+                post.likes_count += 1
+                post.save()
+                return HttpResponse(status=204)
+            except expression as e:
                 return HttpResponse(e)
+        else:
+            return HttpResponse("Method must be 'PUT'")
+    else:
+        return HttpResponseRedirect('login')
+
+@csrf_exempt
+def unlike_post(request, id):
+    if request.user.is_authenticated:
+        if request.method == 'PUT':
+            post = Post.objects.get(pk=id)
+            print(post)
+            try:
+                like = Like.objects.get(post=post, liker=request.user).delete()
+                post.likes_count -= 1
+                post.save()
+                return HttpResponse(status=204)
+            except expression as e:
+                return HttpResponse(e)
+        else:
+            return HttpResponse("Method must be 'PUT'")
+    else:
+        return HttpResponseRedirect('login')
