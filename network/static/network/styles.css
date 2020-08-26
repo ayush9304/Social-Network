@@ -288,6 +288,7 @@ svg{
 }
 .profile-details a{
     color: black;
+    text-decoration: none;
 }
 .bio{
     margin-top: 8px;
@@ -295,12 +296,34 @@ svg{
 
 
 /********* Posts Section **********/
+
+@keyframes hide{
+    0%{
+        opacity: 1;
+        height: 100%;
+    }
+    75%{
+        opacity: 0;
+        height: 100%;
+    }
+    100%{
+        opacity: 0;
+        height: 0px;
+    }
+}
+
+
 .post{
     background-color: white;
     border-top: 1px solid #e6ecf0;
     padding: 8px 18px 8px 18px;
     display: flex;
     font-size: .9em;
+    overflow: hidden;
+    animation-name: hide;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-play-state: paused;
 }
 .post:hover{
     background-color: #f5f8fa;
@@ -521,7 +544,7 @@ svg{
     transition-duration: .5s;
     background-color: transparent;
 }
-/* .third:focus::-webkit-scrollbar, .third:focus::-webkit-scrollbar-thumb*/
+
 .right-div-content:hover::-webkit-scrollbar, .right-div-content:hover::-webkit-scrollbar-thumb{
     border-radius: 8px;
     background-color: grey;
@@ -630,7 +653,7 @@ svg{
 
 
 .login-popup{
-    /*display: none;*/
+    display: none;
     position: absolute;
     top: 65px;
     left: 25%;

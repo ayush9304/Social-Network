@@ -200,7 +200,15 @@ function unsave_post(element) {
     });
 }
 
-
+function delete_post(id) {
+    let post = 0;
+    document.querySelectorAll('.post').forEach(eachpost => {
+        if(eachpost.dataset.post_id==id) {
+            post = eachpost;
+        }
+    });
+    post.style.animationPlayState = 'running';
+}
 
 
 
