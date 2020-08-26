@@ -16,7 +16,8 @@ class Post(models.Model):
     date_created = models.DateTimeField(default=timezone.now)
     content_text = models.TextField(max_length=140, blank=True)
     content_image = models.ImageField(upload_to='posts/', blank=True)
-    likes_count = models.IntegerField(default=0)
+    likers = models.ManyToManyField(User, related_name='likes')
+    savers = models.ManyToManyField(User, related_name='saved')
     comment_count = models.IntegerField(default=0)
 
     def __str__(self):
@@ -41,17 +42,17 @@ class Follower(models.Model):
     def __str__(self):
         return f"User: {self.user}"
     
-class Like(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likers')
-    liker = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='likes')
-
-    def __str__(self):
-        return f"Post[{self.post}]"
+#class Like(models.Model):
+#    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likers')
+#    liker = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='likes')
+#
+#    def __str__(self):
+#        return f"Post[{self.post}]"
     
-class Saved(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.user} : [{self.post}]"
+#class Saved(models.Model):
+#    user = models.ForeignKey(User, on_delete=models.CASCADE)
+#    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+#
+#    def __str__(self):
+#        return f"{self.user} : [{self.post}]"
         

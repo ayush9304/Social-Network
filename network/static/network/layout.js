@@ -167,3 +167,50 @@ function unlike_post(element) {
         element.setAttribute('onclick','like_post(this)');
     })
 }
+
+function save_post(element) {
+    if(document.querySelector('#user_is_authenticated').value === 'False') {
+        login_popup('save');
+        return false;
+    }
+    let id = element.dataset.post_id;
+    fetch('/n/post/'+parseInt(id)+'/save', {
+        method: 'PUT'
+    })
+    .then(() => {
+        element.querySelector('.svg-span').innerHTML = `
+            <svg width="1em" height="1em" viewBox="0.5 0 15 15" class="bi bi-bookmark-fill" fill="#17bf63" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M3 3a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v12l-5-3-5 3V3z"/>
+            </svg>`;
+        element.setAttribute('onclick','unsave_post(this)');
+    });
+}
+
+function unsave_post(element) {
+    let id = element.dataset.post_id;
+    fetch('/n/post/'+parseInt(id)+'/unsave', {
+        method: 'PUT'
+    })
+    .then(() => {
+        element.querySelector('.svg-span').innerHTML = `
+        <svg width="1em" height="1em" viewBox="0.5 0 15 15" class="bi bi-bookmark" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M8 12l5 3V3a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12l5-3zm-4 1.234l4-2.4 4 2.4V3a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10.234z"/>
+        </svg>`;
+        element.setAttribute('onclick','save_post(this)');
+    });
+}
+
+
+
+
+
+
+
+
+function goto_register() {
+    window.location.href = '/n/register';
+}
+
+function goto_login() {
+    window.location.href = '/n/login';
+}

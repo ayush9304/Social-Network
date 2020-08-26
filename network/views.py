@@ -17,13 +17,10 @@ def index(request):
     if request.user.is_authenticated:
         followings = Follower.objects.filter(follower=request.user).values_list('user', flat=True)
         suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6]
-    #for post in posts:
-    #    likes.append(Like.objects.filter(post=post))
     return render(request, "network/index.html", {
         "posts": posts,
         "suggestions": suggestions,
         "page": "all_posts"
-        #"likes":likes
     })
 
 
@@ -116,8 +113,7 @@ def like_post(request, id):
             post = Post.objects.get(pk=id)
             print(post)
             try:
-                like = Like.objects.create(post=post, liker=request.user)
-                post.likes_count += 1
+                post.likers.add(request.user)
                 post.save()
                 return HttpResponse(status=204)
             except expression as e:
@@ -125,7 +121,7 @@ def like_post(request, id):
         else:
             return HttpResponse("Method must be 'PUT'")
     else:
-        return HttpResponseRedirect('login')
+        return HttpResponseRedirect(reverse('login'))
 
 @csrf_exempt
 def unlike_post(request, id):
@@ -134,8 +130,7 @@ def unlike_post(request, id):
             post = Post.objects.get(pk=id)
             print(post)
             try:
-                like = Like.objects.get(post=post, liker=request.user).delete()
-                post.likes_count -= 1
+                post.likers.remove(request.user)
                 post.save()
                 return HttpResponse(status=204)
             except expression as e:
@@ -143,4 +138,38 @@ def unlike_post(request, id):
         else:
             return HttpResponse("Method must be 'PUT'")
     else:
-        return HttpResponseRedirect('login')
+        return HttpResponseRedirect(reverse('login'))
+
+@csrf_exempt
+def save_post(request, id):
+    if request.user.is_authenticated:
+        if request.method == 'PUT':
+            post = Post.objects.get(pk=id)
+            print(post)
+            try:
+                post.savers.add(request.user)
+                post.save()
+                return HttpResponse(status=204)
+            except expression as e:
+                return HttpResponse(e)
+        else:
+            return HttpResponse("Method must be 'PUT'")
+    else:
+        return HttpResponseRedirect(reverse('login'))
+
+@csrf_exempt
+def unsave_post(request, id):
+    if request.user.is_authenticated:
+        if request.method == 'PUT':
+            post = Post.objects.get(pk=id)
+            print(post)
+            try:
+                post.savers.remove(request.user)
+                post.save()
+                return HttpResponse(status=204)
+            except expression as e:
+                return HttpResponse(e)
+        else:
+            return HttpResponse("Method must be 'PUT'")
+    else:
+        return HttpResponseRedirect(reverse('login'))
