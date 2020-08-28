@@ -286,6 +286,19 @@ function unfollow_user(element, username, origin) {
     });
 }
 
+/////////////////////////////function comment(element) {
+/////////////////////////////    let post_div = element.parentElement.parentElement.parentElement.parentElement;
+/////////////////////////////    let post_id = post_div.dataset.post_id;
+/////////////////////////////    let comment_div = post_div.querySelector('.comment-div');
+/////////////////////////////    comment_div.style.display = 'block';
+/////////////////////////////    fetch('/n/post/'+parseInt(post_id)+'write_comment',{
+/////////////////////////////        method: 'POST',
+/////////////////////////////        comment:JSON.stringify({
+/////////////////////////////            post_id: post_id,
+/////////////////////////////            comment_text: 
+/////////////////////////////        })
+/////////////////////////////    })
+/////////////////////////////}
 
 
 

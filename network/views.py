@@ -221,3 +221,24 @@ def unfollow(request, username):
             return HttpResponse("Method must be 'PUT'")
     else:
         return HttpResponseRedirect(reverse('login'))
+
+
+@csrf_exempt
+def comment(request, post_id, comment_text):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            data = json.loads(request.comment)
+            comment = data.comment_text
+            post_id = data.post_id
+            post = Post.objects.get(id=post_id)
+            try:
+                Comment.objects.create(post=post,commenter=request.user,comment_content=comment)
+                post.comment_count += 1
+                post.save()
+                return HttpResponse(status=201)
+            except Exception as e:
+                return HttpResponse(e)
+        else:
+            return HttpResponse("Method must be 'POST'")
+    else:
+        return HttpResponseRedirect(reverse('login'))

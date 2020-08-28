@@ -317,9 +317,9 @@ svg{
     background-color: white;
     border-top: 1px solid #e6ecf0;
     padding: 8px 18px 8px 18px;
-    display: flex;
     font-size: .9em;
-    overflow-x: hidden;
+    overflow-y: visible;
+    transition-duration: .4s;
     animation-name: hide;
     animation-duration: 1s;
     animation-fill-mode: forwards;
@@ -327,8 +327,11 @@ svg{
 }
 .post:hover{
     background-color: #f5f8fa;
-    cursor: pointer;
     transition-duration: .4s;
+    cursor: pointer;
+}
+.post > div{
+    display: flex;
 }
 .post a{
     text-decoration: none;
@@ -418,18 +421,87 @@ svg{
     background-color: #f3e3eb;
     box-shadow: 0 0 0 3px #f3e3eb;
     transition-duration: .2s;
+    cursor: pointer;
 }
 .post-actions .comment:hover .svg-span{
     color: #1da1f2;
     background-color: #dfeffa;
     box-shadow: 0 0 0 3px #dfeffa;
     transition-duration: .2s;
+    cursor: pointer;
 }
 .post-actions .save:hover .svg-span{
     color: #17bf63;
     background-color: #def2eb;
     box-shadow: 0 0 0 3px #def2eb;
     transition-duration: .2s;
+    cursor: pointer;
+}
+
+.comment-div{
+    margin: 10px 0px;
+    padding-left: 10px;
+}
+.comment-div #spinner{
+    transform: translate(-50%, 0%);
+}
+.comment-div > div{
+    width: 100%;
+}
+.head-comment-input{
+    width: 100%;
+    display: flex;
+}
+.eachrow{
+    display: flex;
+    margin-top: 10px;
+    width: 90%;
+}
+.comment-div .small-profilepic{
+    width: 2.7vw;
+    height: 2.7vw;
+}
+.comment-input-div{
+    width: 100%;
+    height: 100%;
+    border-radius: 17px;
+    background-color: #f0f2f5;
+    overflow: hidden;
+    padding: 0px 10px;
+    transition-duration: .4s;
+}
+.post:hover .comment-input-div{
+    background-color: white;
+    transition-duration: .4s;
+}
+.comment-input-div form{
+    height: 100%;
+}
+.comment-input-div input{
+    background: none;
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    font-size: 1.1em;
+}
+.comment-text-div{
+    padding:8px 13px;
+    background-color: #f0f2f5;
+    border-radius: 17px;
+    cursor: auto;
+    display: inline-block;
+}
+.post:hover .comment-text-div{
+    background-color: white;
+    transition-duration: .4s;
+}
+.comment-text-div a{
+    font-size: .93em;
+    font-weight: 630;
+}
+.comment-text-div a:hover{
+    text-decoration: underline;
 }
 
 
