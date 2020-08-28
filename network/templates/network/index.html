@@ -21,18 +21,20 @@
             <div class="left-div-content">
                 <div class="posts-view">
                     {% if profile %}
-                        <div class="profile-view">
+                        <div class="profile-view" data-user="{{username.username}}">
                             <div class="cover-image" style="background-image: url(/media/{{username.cover}})"></div>
                             <div class="profile-image" style="background-image: url(/media/{{username.profile_pic}})"></div>
                             <div class="profile-details">
-                                {% if user.username == username.username %}
-                                    <button class="btn btn-outline-success float-right" id="edit-profile-btn">Edit Profile</button>
-                                {% elif follower %}
-                                    <button class="btn btn-success float-right" id="following-btn">Following</button>
-                                {% else %}
-                                    <button class="btn btn-outline-success float-right" id="follow-btn">Follow</button>
-                                {% endif %}
                                 <div>
+                                    {% if user.username == username.username %}
+                                        <button class="btn btn-outline-success float-right" id="edit-profile-btn">Edit Profile</button>
+                                    {% elif is_follower %}
+                                        <button class="btn btn-success float-right" onclick="unfollow_user(this,'{{username.username}}','edit_page')" id="following-btn">Following</button>
+                                    {% else %}
+                                        <button class="btn btn-outline-success float-right" onclick="follow_user(this,'{{username.username}}','edit_page')" id="follow-btn">Follow</button>
+                                    {% endif %}
+                                </div>
+                                <div class="details-data">
                                     <h5>{{username.first_name}} {{username.last_name}}</h5>
                                     <div class="grey">@{{username.username}}</div>
                                     <div class="bio">{{username.bio}}</div>
@@ -50,11 +52,11 @@
                                         &nbsp;<span class="grey">Posts</span>
                                         &ensp;
                                         <a href="#">
-                                            <strong>2349</strong>&nbsp;<span class="grey">Following</span>
+                                            <strong id="following__count">{{following_count | default:0}}</strong>&nbsp;<span class="grey">Following</span>
                                         </a>
                                         &ensp;
                                         <a href="#">
-                                            <strong>61.3M</strong>&nbsp;<span class="grey">Followers</span>
+                                            <strong id="follower__count">{{follower_count | default:0}}</strong>&nbsp;<span class="grey">Followers</span>
                                         </a>
                                     </div>
                                 </div>

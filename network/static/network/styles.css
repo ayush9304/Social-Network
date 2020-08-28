@@ -278,7 +278,7 @@ svg{
 .profile-details button{
     padding-bottom: 0.3rem;
 }
-.profile-details > div{
+.profile-details > .details-data{
     margin-top: 52px;
     font-size: .92em;
 }
@@ -319,7 +319,7 @@ svg{
     padding: 8px 18px 8px 18px;
     display: flex;
     font-size: .9em;
-    overflow: hidden;
+    overflow-x: hidden;
     animation-name: hide;
     animation-duration: 1s;
     animation-fill-mode: forwards;
@@ -350,8 +350,8 @@ svg{
     box-shadow: rgba(101, 119, 134, 0.2) 0px 0px 15px, rgba(101, 119, 134, 0.15) 0px 0px 3px 1px;
     border: 0px;
     position: absolute;
-    left: calc(x);
-    z-index: 1100;
+    top: 0px;
+    z-index: 99999;
 }
 
 .dropdown-item{

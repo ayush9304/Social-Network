@@ -6,6 +6,7 @@
         <title>{% block title %}Social Network{% endblock %}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="{% static 'network/styles.css' %}" rel="stylesheet">
+        <link rel="shortcut icon" href="{% static 'network/Images/favicon.ico' %}">
         <script type="text/javascript" src="{% static 'network/layout.js' %}"></script>
         {% block head %}
         {% endblock %}
@@ -197,7 +198,7 @@
                             </li>
                         {% endif %}
                         {% if user.is_authenticated %}
-                            <input type="hidden" id="user_is_authenticated" value="True">
+                            <input type="hidden" id="user_is_authenticated" value="True" data-username='{{user.username}}'>
                         {% else %}
                             <input type="hidden" id="user_is_authenticated" value="False">
                         {% endif %}
@@ -248,9 +249,13 @@
                                         </a>
                                     </div>
                                     <div>
-                                        <button class="btn btn-outline-success" type="button">Follow</button>
+                                        <button class="btn btn-outline-success" type="button" onclick="follow_user(this,'{{suggestion.username}}','suggestion')">Follow</button>
                                     </div>
                                 </div>
+                            {% empty %}
+                                    <div style="text-align: center; border-bottom: .5px solid #e6ecf0; padding: 10px 15px;">
+                                        <span class="grey" style="font-size: .9em;">No suggestions available.</span>
+                                    </div>
                             {% endfor %}
                             <div class="suggestion-footer">
                                 <a href="#">Show more</a>
@@ -266,7 +271,7 @@
                                     Sign up now to get connected with people you know.
                                 </div>
                                 <div class="guest-btn">
-                                    <button class="btn btn-success btn-block" type="button">Sign Up</button>
+                                    <button class="btn btn-success btn-block" type="button" onclick="goto_register()">Sign Up</button>
                                 </div>
                             </center>
                         </div>

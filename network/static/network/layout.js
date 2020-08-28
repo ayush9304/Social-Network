@@ -6,13 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function drop_down(event) {
     let drop_down = event.target.parentElement.querySelector(".dropdown-menu");
-    drop_down.style.display = 'block';
-    //document.querySelector('.dropdown-menu').style.display = 'block';
-    document.addEventListener('keydown', event => {
-        if(event.key === 'Escape') {
-            drop_down.style.display = 'none';
-        }
-    });
+    setTimeout(() => {
+        drop_down.style.display = 'block';
+        width = drop_down.offsetWidth;
+        let btn_width = drop_down.parentElement.querySelector('button').offsetWidth;
+        let left = width-btn_width;
+        drop_down.style.left = '-'+left+'px';
+        document.addEventListener('keydown', event => {
+            if(event.key === 'Escape') {
+                drop_down.style.display = 'none';
+            }
+        });
+    }, 100);
 }
 
 function remove_drop_down(event) {
@@ -75,6 +80,13 @@ function login_popup(action) {
             <path fill-rule="evenodd" d="M3 3a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v12l-5-3-5 3V3z"/>
         </svg>`;
         document.querySelector('.main_text-div').querySelector('h2').innerText = 'Save a post to reference later';
+    }
+    else if (action === 'follow') {
+        document.querySelector('.icon-div').innerHTML = `
+        <svg width="2.5em" height="2.5em" viewBox="0 0 24 24" fill="#17bf63" class="r-1re7ezh r-4qtqp9 r-yyyyoo r-1q142lx r-1xvli5t r-19einr3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">
+            <g><path d="M23.152 3.483h-2.675V.81c0-.415-.336-.75-.75-.75s-.75.335-.75.75v2.674H16.3c-.413 0-.75.336-.75.75s.337.75.75.75h2.677V7.66c0 .413.336.75.75.75s.75-.337.75-.75V4.982h2.675c.414 0 .75-.336.75-.75s-.336-.75-.75-.75zM8.417 11.816c1.355 0 2.872-.15 3.84-1.256.813-.93 1.077-2.367.806-4.392-.38-2.826-2.116-4.513-4.646-4.513S4.15 3.342 3.77 6.168c-.27 2.025-.007 3.462.807 4.393.968 1.108 2.485 1.257 3.84 1.257zm-3.16-5.448c.16-1.2.786-3.212 3.16-3.212 2.373 0 2.998 2.013 3.16 3.212.207 1.55.056 2.627-.45 3.205-.455.52-1.266.743-2.71.743s-2.256-.223-2.71-.743c-.507-.578-.658-1.656-.45-3.205zm11.44 12.867c-.88-3.525-4.283-5.988-8.28-5.988-3.998 0-7.403 2.463-8.28 5.988-.172.693-.03 1.4.395 1.94.408.522 1.04.822 1.733.822H14.57c.69 0 1.323-.3 1.73-.82.425-.54.568-1.247.396-1.942zm-1.577 1.018c-.126.16-.316.245-.55.245H2.264c-.235 0-.426-.085-.552-.246-.137-.174-.18-.412-.12-.654.71-2.855 3.517-4.85 6.824-4.85s6.113 1.994 6.824 4.85c.06.24.017.48-.12.655z"></path></g>
+        </svg>`;
+        document.querySelector('.main_text-div').querySelector('h2').innerText = 'Follow people that inspires you';
     }
 }
 
@@ -209,6 +221,71 @@ function delete_post(id) {
     });
     post.style.animationPlayState = 'running';
 }
+
+function follow_user(element, username, origin) {
+    if(document.querySelector('#user_is_authenticated').value === 'False') {
+        login_popup('follow');
+        return false;
+    }
+    fetch('/'+username+'/follow', {
+        method: 'PUT'
+    })
+    .then(() => {
+        if(origin === 'suggestion') {
+            element.parentElement.innerHTML = `<button class="btn btn-success" type="button" onclick="unfollow_user(this,'${username}','suggestion')">Following</button>`;
+        }
+        else if(origin === 'edit_page') {
+            element.parentElement.innerHTML = `<button class="btn btn-success float-right" onclick="unfollow_user(this,'${username}','edit_page')" id="following-btn">Following</button>`;
+        }
+        else if(origin === 'dropdown') {
+            ////////////////////////////////////////////////////////////////////////////////////////////
+        }
+
+        if(document.querySelector('.body').dataset.page === 'profile') {
+            if(document.querySelector('.profile-view').dataset.user === username) {
+                document.querySelector('#follower__count').innerHTML++;
+            }
+        }
+        if(document.querySelector('.body').dataset.page === 'profile') {
+            if(document.querySelector('.profile-view').dataset.user === document.querySelector('#user_is_authenticated').dataset.username) {
+                document.querySelector('#following__count').innerHTML++;
+            }
+        }
+    });
+}
+
+function unfollow_user(element, username, origin) {
+    if(document.querySelector('#user_is_authenticated').value === 'False') {
+        login_popup('follow');
+        return false;
+    }
+    fetch('/'+username+'/unfollow', {
+        method: 'PUT'
+    })
+    .then(() => {
+        if(origin === 'suggestion') {
+            element.parentElement.innerHTML = `<button class="btn btn-outline-success" type="button" onclick="follow_user(this,'${username}','suggestion')">Follow</button>`;
+        }
+        else if(origin === 'edit_page') {
+            element.parentElement.innerHTML = `<button class="btn btn-outline-success float-right" onclick="follow_user(this,'${username}','edit_page')" id="follow-btn">Follow</button>`;
+        }
+        else if(origin === 'dropdown') {
+            ///////////////////////////////////////////////////////////////////////////////////////////
+        }
+
+        if(document.querySelector('.body').dataset.page === 'profile') {
+            if(document.querySelector('.profile-view').dataset.user === username) {
+                document.querySelector('#follower__count').innerHTML--;
+            }
+        }
+        if(document.querySelector('.body').dataset.page === 'profile') {
+            if(document.querySelector('.profile-view').dataset.user === document.querySelector('#user_is_authenticated').dataset.username) {
+                document.querySelector('#following__count').innerHTML--;
+            }
+        }
+    });
+}
+
 
 
 

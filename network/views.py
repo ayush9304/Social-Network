@@ -15,7 +15,7 @@ def index(request):
     suggestions = []
     likes = []
     if request.user.is_authenticated:
-        followings = Follower.objects.filter(follower=request.user).values_list('user', flat=True)
+        followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
         suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6]
     return render(request, "network/index.html", {
         "posts": posts,
@@ -80,9 +80,16 @@ def profile(request, username):
     posts = Post.objects.filter(creater=user)
     followings = []
     suggestions = []
+    follower = False
     if request.user.is_authenticated:
-        followings = Follower.objects.filter(follower=request.user).values_list('user', flat=True)
+        followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
         suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6]
+
+        if request.user in Follower.objects.get(user=user).followers.all():
+            follower = True
+    
+    follower_count = Follower.objects.get(user=user).followers.all().count()
+    following_count = Follower.objects.filter(followers=user).count()
     return render(request, 'network/index.html', {
         "username": user,
         "posts": reversed(posts),
@@ -90,7 +97,9 @@ def profile(request, username):
         "suggestions": suggestions,
         "page": "profile",
         "profile": True,
-        "follower": False
+        "is_follower": follower,
+        "follower_count": follower_count,
+        "following_count": following_count
     })
 
 @login_required
@@ -167,6 +176,44 @@ def unsave_post(request, id):
             try:
                 post.savers.remove(request.user)
                 post.save()
+                return HttpResponse(status=204)
+            except expression as e:
+                return HttpResponse(e)
+        else:
+            return HttpResponse("Method must be 'PUT'")
+    else:
+        return HttpResponseRedirect(reverse('login'))
+
+@csrf_exempt
+def follow(request, username):
+    if request.user.is_authenticated:
+        if request.method == 'PUT':
+            user = User.objects.get(username=username)
+            print(f".....................User: {user}......................")
+            print(f".....................Follower: {request.user}......................")
+            try:
+                (follower, create) = Follower.objects.get_or_create(user=user)
+                follower.followers.add(request.user)
+                follower.save()
+                return HttpResponse(status=204)
+            except Exception as e:
+                return HttpResponse(e)
+        else:
+            return HttpResponse("Method must be 'PUT'")
+    else:
+        return HttpResponseRedirect(reverse('login'))
+
+@csrf_exempt
+def unfollow(request, username):
+    if request.user.is_authenticated:
+        if request.method == 'PUT':
+            user = User.objects.get(username=username)
+            print(f".....................User: {user}......................")
+            print(f".....................Unfollower: {request.user}......................")
+            try:
+                follower = Follower.objects.get(user=user)
+                follower.followers.remove(request.user)
+                follower.save()
                 return HttpResponse(status=204)
             except expression as e:
                 return HttpResponse(e)
