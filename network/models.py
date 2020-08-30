@@ -11,6 +11,15 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            "username": self.username,
+            "profile_pic": self.profile_pic.url,
+            "first_name": self.first_name,
+            "last_name": self.last_name
+        }
+
 class Post(models.Model):
     creater = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     date_created = models.DateTimeField(default=timezone.now)
@@ -34,6 +43,14 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Post: {self.post} | Commenter: {self.commenter}"
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "commenter": self.commenter.serialize(),
+            "body": self.comment_content,
+            "timestamp": self.comment_time.strftime("%b %d %Y, %I:%M %p")
+        }
     
 class Follower(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers')

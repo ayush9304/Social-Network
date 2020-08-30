@@ -286,19 +286,70 @@ function unfollow_user(element, username, origin) {
     });
 }
 
-/////////////////////////////function comment(element) {
-/////////////////////////////    let post_div = element.parentElement.parentElement.parentElement.parentElement;
-/////////////////////////////    let post_id = post_div.dataset.post_id;
-/////////////////////////////    let comment_div = post_div.querySelector('.comment-div');
-/////////////////////////////    comment_div.style.display = 'block';
-/////////////////////////////    fetch('/n/post/'+parseInt(post_id)+'write_comment',{
-/////////////////////////////        method: 'POST',
-/////////////////////////////        comment:JSON.stringify({
-/////////////////////////////            post_id: post_id,
-/////////////////////////////            comment_text: 
-/////////////////////////////        })
-/////////////////////////////    })
-/////////////////////////////}
+
+function show_comment(element) {
+    if(document.querySelector('#user_is_authenticated').value === 'False') {
+        login_popup('comment');
+        return;
+    }
+    let post_div = element.parentElement.parentElement.parentElement.parentElement;
+    let post_id = post_div.dataset.post_id;
+    let comment_div = post_div.querySelector('.comment-div');
+    if(comment_div.style.display === 'block') {
+        comment_div.querySelector('input').focus()
+        return;
+    }
+    comment_div.style.display = 'block';
+    fetch('/n/post/'+parseInt(post_id)+'/comments')
+    .then(response => response.json())
+    .then(comments => {
+        let comment_div_data = comment_div.querySelector('.comment-div-data');
+        comments.forEach(comment => {
+            display_comment(comment,comment_div_data);
+        });
+    })
+    .then(() => {
+        setTimeout(() => {
+            comment_div.querySelector('.spinner-div').style.display = 'none';
+            comment_div.querySelector('.comment-div-data').style.display = 'block';
+        }, 500);
+    });
+}
+
+//function write_comment(element) {
+//    let post_div = element.parentElement.parentElement.parentElement.parentElement;
+//    let post_id = post_div.dataset.post_id;
+//    fetch('/n/post/'+parseInt(post_id)+'write_comment',{
+//        method: 'POST',
+//        comment:JSON.stringify({
+//            post_id: post_id,
+//            comment_text: 
+//        })
+//    })
+//}
+
+function display_comment(comment,container) {
+    let eachrow = document.createElement('div');
+    eachrow.className = 'eachrow';
+    eachrow.setAttribute('data-id', comment.id);
+    eachrow.innerHTML = `
+            <div>
+                <a href="/${comment.commenter.username}">
+                    <div class="small-profilepic" style="background-image: url(${comment.commenter.profile_pic})"></div>
+                </a>
+            </div>
+            <div style="flex: 1;">
+                <div class="comment-text-div">
+                    <div class="comment-user">
+                        <a href="/${comment.commenter.username}">
+                            ${comment.commenter.first_name} ${comment.commenter.last_name}
+                        </a>
+                    </div>
+                    ${comment.body}
+                </div>
+            </div>`;
+        container.append(eachrow);
+}
 
 
 

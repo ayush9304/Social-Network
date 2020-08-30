@@ -326,7 +326,7 @@ svg{
     animation-play-state: paused;
 }
 .post:hover{
-    background-color: #f5f8fa;
+    /*background-color: #f5f8fa;*/
     transition-duration: .4s;
     cursor: pointer;
 }
@@ -471,7 +471,7 @@ svg{
     transition-duration: .4s;
 }
 .post:hover .comment-input-div{
-    background-color: white;
+    /*background-color: white;*/
     transition-duration: .4s;
 }
 .comment-input-div form{
@@ -493,7 +493,7 @@ svg{
     display: inline-block;
 }
 .post:hover .comment-text-div{
-    background-color: white;
+    /*background-color: white;*/
     transition-duration: .4s;
 }
 .comment-text-div a{

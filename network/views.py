@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -224,7 +224,7 @@ def unfollow(request, username):
 
 
 @csrf_exempt
-def comment(request, post_id, comment_text):
+def comment(request, post_id):
     if request.user.is_authenticated:
         if request.method == 'POST':
             data = json.loads(request.comment)
@@ -238,7 +238,13 @@ def comment(request, post_id, comment_text):
                 return HttpResponse(status=201)
             except Exception as e:
                 return HttpResponse(e)
-        else:
-            return HttpResponse("Method must be 'POST'")
     else:
         return HttpResponseRedirect(reverse('login'))
+    
+    post = Post.objects.get(id=post_id)
+    comments = Comment.objects.filter(post=post)
+    comments = comments.order_by('-comment_time').all()
+    return JsonResponse([comment.serialize() for comment in comments], safe=False)
+    #return JsonResponse({
+    #    "comments": [comment.serialize() for comment in comments]
+    #})
