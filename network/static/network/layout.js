@@ -334,7 +334,7 @@ function display_comment(comment,container) {
     eachrow.setAttribute('data-id', comment.id);
     eachrow.innerHTML = `
             <div>
-                <a href="/${comment.commenter.username}">
+                <a href='/${comment.commenter.username}'>
                     <div class="small-profilepic" style="background-image: url(${comment.commenter.profile_pic})"></div>
                 </a>
             </div>
