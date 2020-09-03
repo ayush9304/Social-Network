@@ -297,39 +297,33 @@ svg{
 
 /********* Posts Section **********/
 
-@keyframes hide{
+@keyframes hidee{
     0%{
         opacity: 1;
-        height: 100%;
     }
-    75%{
+    50%{
         opacity: 0;
-        height: 100%;
     }
     100%{
         opacity: 0;
-        height: 0px;
     }
 }
-
 
 .post{
     background-color: white;
     border-top: 1px solid #e6ecf0;
     padding: 8px 18px 8px 18px;
     font-size: .9em;
-    overflow-y: visible;
-    transition-duration: .4s;
-    animation-name: hide;
-    animation-duration: 1s;
+    animation-name: hidee;
+    animation-duration: .7s;
     animation-fill-mode: forwards;
     animation-play-state: paused;
 }
-.post:hover{
-    /*background-color: #f5f8fa;*/
+/*.post:hover{
+    background-color: #f5f8fa;
     transition-duration: .4s;
     cursor: pointer;
-}
+}*/
 .post > div{
     display: flex;
 }
@@ -354,12 +348,13 @@ svg{
     border: 0px;
     position: absolute;
     top: 0px;
+    margin: 0px;
     z-index: 99999;
 }
 
 .dropdown-item{
-    padding-bottom: 15px;
-    padding-top: 15px;
+    padding-bottom: 14px;
+    padding-top: 14px;
     font-size: .9em;
     color: #3f4244;
 }
@@ -441,6 +436,8 @@ svg{
 .comment-div{
     margin: 10px 0px;
     padding-left: 10px;
+    max-height: 75vh;
+    overflow: hidden;
 }
 .comment-div #spinner{
     transform: translate(-50%, 0%);
@@ -452,10 +449,27 @@ svg{
     width: 100%;
     display: flex;
 }
+
+@keyframes godown{
+    0%{
+        margin-top: -10px;
+        opacity: .7;
+    }
+    100%{
+        margin-top: 10px;
+        opacity: 1;
+    }
+}
+
 .eachrow{
     display: flex;
     margin-top: 10px;
     width: 90%;
+}
+.godown{
+    animation-name: godown;
+    animation-duration: .3s;
+    animation-fill-mode: forwards;
 }
 .comment-div .small-profilepic{
     width: 2.7vw;
@@ -667,7 +681,7 @@ svg{
 .small-popup{
     display: none;
     position: absolute;
-    top: 207px;
+    top: 200px;
     left: 37%;
     width: 23%;
     transform: translate(-50%,-50%);

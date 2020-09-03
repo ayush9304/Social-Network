@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 from .models import *
 
@@ -13,14 +14,14 @@ def index(request):
     posts = Post.objects.all().order_by('-date_created')
     followings = []
     suggestions = []
-    likes = []
     if request.user.is_authenticated:
         followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
         suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6]
     return render(request, "network/index.html", {
         "posts": posts,
         "suggestions": suggestions,
-        "page": "all_posts"
+        "page": "all_posts",
+        'profile': False
     })
 
 
@@ -77,7 +78,7 @@ def register(request):
 
 def profile(request, username):
     user = User.objects.get(username=username)
-    posts = Post.objects.filter(creater=user)
+    posts = Post.objects.filter(creater=user).order_by('-date_created')
     followings = []
     suggestions = []
     follower = False
@@ -90,17 +91,32 @@ def profile(request, username):
     
     follower_count = Follower.objects.get(user=user).followers.all().count()
     following_count = Follower.objects.filter(followers=user).count()
-    return render(request, 'network/index.html', {
+    return render(request, 'network/profile.html', {
         "username": user,
-        "posts": reversed(posts),
+        "posts": posts,
         "posts_count": posts.count(),
         "suggestions": suggestions,
         "page": "profile",
-        "profile": True,
         "is_follower": follower,
         "follower_count": follower_count,
         "following_count": following_count
     })
+
+def following(request):
+    if request.user.is_authenticated:
+        following_user = Follower.objects.filter(followers=request.user).values('user')
+        posts = Post.objects.filter(creater__in=following_user).order_by('-date_created')
+        followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
+        suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6]
+        return render(request, "network/index.html", {
+            "posts": posts,
+            "suggestions": suggestions,
+            "page": "following"
+        })
+    else:
+        return HttpResponseRedirect(reverse('login'))
+        
+
 
 @login_required
 def create_post(request):
@@ -227,24 +243,46 @@ def unfollow(request, username):
 def comment(request, post_id):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            data = json.loads(request.comment)
-            comment = data.comment_text
-            post_id = data.post_id
+            data = json.loads(request.body)
+            comment = data.get('comment_text')
+            #post_id = data.get('post_id')
             post = Post.objects.get(id=post_id)
             try:
-                Comment.objects.create(post=post,commenter=request.user,comment_content=comment)
+                newcomment = Comment.objects.create(post=post,commenter=request.user,comment_content=comment)
                 post.comment_count += 1
                 post.save()
-                return HttpResponse(status=201)
+                print(newcomment.serialize())
+                return JsonResponse([newcomment.serialize()], safe=False, status=201)
+                #return JsonResponse({'success': True},status=201)
             except Exception as e:
                 return HttpResponse(e)
+    
+        post = Post.objects.get(id=post_id)
+        comments = Comment.objects.filter(post=post)
+        comments = comments.order_by('-comment_time').all()
+        return JsonResponse([comment.serialize() for comment in comments], safe=False)
+        
+        
+        #return JsonResponse({
+        #    "comments": [comment.serialize() for comment in comments]
+        #})
     else:
         return HttpResponseRedirect(reverse('login'))
-    
-    post = Post.objects.get(id=post_id)
-    comments = Comment.objects.filter(post=post)
-    comments = comments.order_by('-comment_time').all()
-    return JsonResponse([comment.serialize() for comment in comments], safe=False)
-    #return JsonResponse({
-    #    "comments": [comment.serialize() for comment in comments]
-    #})
+
+@csrf_exempt
+def delete_post(request, post_id):
+    if request.user.is_authenticated:
+        if request.method == 'PUT':
+            post = Post.objects.get(id=post_id)
+            if request.user == post.creater:
+                try:
+                    delet = post.delete()
+                    return HttpResponse(status=201)
+                except Exception as e:
+                    return HttpResponse(e)
+            else:
+                return HttpResponse(status=404)
+        else:
+            return HttpResponse("Method must be 'PUT'")
+    else:
+        return HttpResponseRedirect(reverse('login'))

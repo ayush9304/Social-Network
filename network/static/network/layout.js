@@ -23,7 +23,7 @@ function drop_down(event) {
 function remove_drop_down(event) {
     setTimeout(() => {
         event.target.parentElement.querySelector(".dropdown-menu").style.display = 'none';
-    },100);
+    },250);
 }
 
 function createpost() {
@@ -46,18 +46,43 @@ function createpost() {
     });
 }
 
-function remove_popup() {
+function confirm_delete(id) {
+    let popup = document.querySelector('.popup');
+    popup.style.display = 'block';
+    let small_popup = popup.querySelector('.small-popup');
+    small_popup.style.display = 'block';
+    document.querySelector('.body').setAttribute('aria-hidden', 'true');
+    document.querySelector('body').style.overflow = "hidden";
+    small_popup.querySelector('#delete_post_btn').addEventListener('click', () => {
+        setTimeout(() => {
+            delete_post(id);
+            remove_popup();                 //////'delete'
+        },100);
+    });
+}
+
+function remove_popup() {           /////////origin
     document.querySelector('.popup').style.display = 'none';
     document.querySelector('.body').style.marginRight = '0px';
     document.querySelector('.body').setAttribute('aria-hidden', 'false');
     document.querySelector('body').style.overflow = "auto";
+    let small_popup = document.querySelector('.small-popup');
+    let large_popup = document.querySelector('.large-popup');
+    let login_popup = document.querySelector('.login-popup');
+    small_popup.style.display = 'none';
+    large_popup.style.display = 'none';
+    login_popup.style.display = 'none';
+    ///////////if(origin === 'delete') {
+    ///////////    small_popup.removeEventListener();
+    ///////////}
+    ///////////large_popup.removeEventListener();
+    ///////////login_popup.removeEventListener();
 }
 
 function login_popup(action) {
     let popup = document.querySelector('.popup');
     popup.style.display = 'block';
     popup.querySelector('.login-popup').style.display = 'block';
-    document.querySelector('.body').style.marginRight = '15px';
     document.querySelector('.body').setAttribute('aria-hidden', 'true');
     document.querySelector('body').style.overflow = "hidden";
     if(action === 'like') {
@@ -220,6 +245,12 @@ function delete_post(id) {
         }
     });
     post.style.animationPlayState = 'running';
+    post.addEventListener('animationend', () => {
+        post.remove();
+    });
+    fetch('/n/post/'+parseInt(id)+'/delete', {
+        method: 'PUT'
+    });
 }
 
 function follow_user(element, username, origin) {
@@ -295,6 +326,8 @@ function show_comment(element) {
     let post_div = element.parentElement.parentElement.parentElement.parentElement;
     let post_id = post_div.dataset.post_id;
     let comment_div = post_div.querySelector('.comment-div');
+    let comment_div_data = comment_div.querySelector('.comment-div-data');
+    let comment_comments = comment_div_data.querySelector('.comment-comments');
     if(comment_div.style.display === 'block') {
         comment_div.querySelector('input').focus()
         return;
@@ -303,52 +336,73 @@ function show_comment(element) {
     fetch('/n/post/'+parseInt(post_id)+'/comments')
     .then(response => response.json())
     .then(comments => {
-        let comment_div_data = comment_div.querySelector('.comment-div-data');
         comments.forEach(comment => {
-            display_comment(comment,comment_div_data);
+            display_comment(comment,comment_comments);
         });
     })
     .then(() => {
         setTimeout(() => {
             comment_div.querySelector('.spinner-div').style.display = 'none';
             comment_div.querySelector('.comment-div-data').style.display = 'block';
+            comment_div.style.overflow = 'auto';
         }, 500);
     });
 }
 
-//function write_comment(element) {
-//    let post_div = element.parentElement.parentElement.parentElement.parentElement;
-//    let post_id = post_div.dataset.post_id;
-//    fetch('/n/post/'+parseInt(post_id)+'write_comment',{
-//        method: 'POST',
-//        comment:JSON.stringify({
-//            post_id: post_id,
-//            comment_text: 
-//        })
-//    })
-//}
+function write_comment(element) {
+    let post_id = element.parentElement.parentElement.parentElement.parentElement.parentElement.dataset.post_id;
+    let comment_text = element.querySelector('.comment-input').value;
+    let comment_comments = element.parentElement.parentElement.parentElement.parentElement.querySelector('.comment-comments');
+    let comment_count = comment_comments.parentElement.parentElement.parentElement.querySelector('.cmt-count');
+    if(comment_text.trim().length <= 0) {
+        return false;
+    }
+    fetch('/n/post/'+parseInt(post_id)+'/write_comment',{
+        method: 'POST',
+        body: JSON.stringify({
+            comment_text: comment_text
+        })
+    })
+    .then(response => response.json())
+    .then(comment => {
+        console.log(comment);
+        element.querySelector('input').value = '';
+        comment_count.innerHTML++;
+        display_comment(comment[0],comment_comments,true);
+        return false;
+    });
+    return false;
+}
 
-function display_comment(comment,container) {
+function display_comment(comment, container, new_comment=false) {
+    let writer = document.querySelector('#user_is_authenticated').dataset.username;
     let eachrow = document.createElement('div');
     eachrow.className = 'eachrow';
     eachrow.setAttribute('data-id', comment.id);
     eachrow.innerHTML = `
-            <div>
-                <a href='/${comment.commenter.username}'>
-                    <div class="small-profilepic" style="background-image: url(${comment.commenter.profile_pic})"></div>
-                </a>
-            </div>
-            <div style="flex: 1;">
-                <div class="comment-text-div">
-                    <div class="comment-user">
-                        <a href="/${comment.commenter.username}">
-                            ${comment.commenter.first_name} ${comment.commenter.last_name}
-                        </a>
-                    </div>
-                    ${comment.body}
+        <div>
+            <a href='/${comment.commenter.username}'>
+                <div class="small-profilepic" style="background-image: url(${comment.commenter.profile_pic})"></div>
+            </a>
+        </div>
+        <div style="flex: 1;">
+            <div class="comment-text-div">
+                <div class="comment-user">
+                    <a href="/${comment.commenter.username}">
+                        ${comment.commenter.first_name} ${comment.commenter.last_name}
+                    </a>
                 </div>
-            </div>`;
+                ${comment.body}
+            </div>
+        </div>`;
+    if (new_comment) {
+        eachrow.classList.add('godown');
+        let comments = container.innerHTML;
+        container.prepend(eachrow);
+    }
+    else {
         container.append(eachrow);
+    }
 }
 
 
