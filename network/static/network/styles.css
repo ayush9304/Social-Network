@@ -301,9 +301,6 @@ svg{
     0%{
         opacity: 1;
     }
-    50%{
-        opacity: 0;
-    }
     100%{
         opacity: 0;
     }
@@ -315,7 +312,7 @@ svg{
     padding: 8px 18px 8px 18px;
     font-size: .9em;
     animation-name: hidee;
-    animation-duration: .7s;
+    animation-duration: .4s;
     animation-fill-mode: forwards;
     animation-play-state: paused;
 }
@@ -353,8 +350,8 @@ svg{
 }
 
 .dropdown-item{
-    padding-bottom: 14px;
-    padding-top: 14px;
+    padding-bottom: 13px;
+    padding-top: 13px;
     font-size: .9em;
     color: #3f4244;
 }

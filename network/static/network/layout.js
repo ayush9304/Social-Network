@@ -53,15 +53,29 @@ function confirm_delete(id) {
     small_popup.style.display = 'block';
     document.querySelector('.body').setAttribute('aria-hidden', 'true');
     document.querySelector('body').style.overflow = "hidden";
-    small_popup.querySelector('#delete_post_btn').addEventListener('click', () => {
-        setTimeout(() => {
-            delete_post(id);
-            remove_popup();                 //////'delete'
-        },100);
-    });
+    small_popup.querySelector('#delete_post_btn').setAttribute('onclick', `delete_post(${id})`);
 }
 
-function remove_popup() {           /////////origin
+function delete_post(id) {
+    remove_popup();
+    setTimeout(() => {
+        let post = 0;
+        document.querySelectorAll('.post').forEach(eachpost => {
+            if(eachpost.dataset.post_id==id) {
+                post = eachpost;
+            }
+        });
+        post.style.animationPlayState = 'running';
+        post.addEventListener('animationend', () => {
+            post.remove();
+        });
+        fetch('/n/post/'+parseInt(id)+'/delete', {
+            method: 'PUT'
+        });
+    },200);
+}
+
+function remove_popup() {
     document.querySelector('.popup').style.display = 'none';
     document.querySelector('.body').style.marginRight = '0px';
     document.querySelector('.body').setAttribute('aria-hidden', 'false');
@@ -72,11 +86,6 @@ function remove_popup() {           /////////origin
     small_popup.style.display = 'none';
     large_popup.style.display = 'none';
     login_popup.style.display = 'none';
-    ///////////if(origin === 'delete') {
-    ///////////    small_popup.removeEventListener();
-    ///////////}
-    ///////////large_popup.removeEventListener();
-    ///////////login_popup.removeEventListener();
 }
 
 function login_popup(action) {
@@ -237,21 +246,6 @@ function unsave_post(element) {
     });
 }
 
-function delete_post(id) {
-    let post = 0;
-    document.querySelectorAll('.post').forEach(eachpost => {
-        if(eachpost.dataset.post_id==id) {
-            post = eachpost;
-        }
-    });
-    post.style.animationPlayState = 'running';
-    post.addEventListener('animationend', () => {
-        post.remove();
-    });
-    fetch('/n/post/'+parseInt(id)+'/delete', {
-        method: 'PUT'
-    });
-}
 
 function follow_user(element, username, origin) {
     if(document.querySelector('#user_is_authenticated').value === 'False') {
