@@ -32,7 +32,8 @@
                         <form action="{% url 'createpost' %}" method="POST" class="newpost" enctype="multipart/form-data">
                             {% csrf_token %}
                             <textarea name="text" autofocus placeholder="What's happening?" rows="5" id="post-text"></textarea>
-                            <div id='img-div'> 
+                            <input type="hidden" id="img-change" value="false"></input>
+                            <div id='img-div'>
                                 <button id="del-img" type='button'>
                                     <svg width="1.55em" height="1.55em" viewBox="0 0 24 24" class="r-jwli3a r-4qtqp9 r-yyyyoo r-1q142lx r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1srniue" fill="#fff">
                                         <g><path d="M13.414 12l5.793-5.793c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0L12 10.586 6.207 4.793c-.39-.39-1.023-.39-1.414 0s-.39 1.023 0 1.414L10.586 12l-5.793 5.793c-.39.39-.39 1.023 0 1.414.195.195.45.293.707.293s.512-.098.707-.293L12 13.414l5.793 5.793c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L13.414 12z"></path></g>
@@ -44,16 +45,16 @@
                             <div class="form-action-btns">
                                 <div>
                                     <input name='picture' accept="image/jpeg,image/png,image/webp,image/gif" type="file" style="display: none;" id="insert-img" data-focusable="true">
-                                    <label for="insert-img" class="icon-btn form-icon-btn">&nbsp;
-                                        <svg width="1.1em" height="1.4em" viewBox="0 0 16 16" class="bi bi-image" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <label for="insert-img" class="icon-btn form-icon-btn"> 
+                                        <svg width="1.1em" height="1.4em" viewBox="0 0 16 16" class="bi bi-image" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="margin-left:2px">
                                             <path fill-rule="evenodd" d="M14.002 2h-12a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-12-1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12z"/>
                                             <path d="M10.648 7.646a.5.5 0 0 1 .577-.093L15.002 9.5V14h-14v-2l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71z"/>
                                             <path fill-rule="evenodd" d="M4.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-                                        </svg><span style="font-size: 0.9em;">&nbsp;Photo</span>&nbsp;
+                                        </svg><span style="font-size: 0.95em;">&nbsp;Photo</span>
                                     </label>
                                 </div>
                                 <div>
-                                    <button class="btn btn-light float-right" type="button" onclick="remove_popup()">Cancel</button>
+                                    <button class="btn btn-light float-right cancel-post" type="button" onclick="remove_popup()">Cancel</button>
                                     <input type="submit" class="btn btn-success float-right submit-btn" value="&nbsp;Post&nbsp;" disabled>
                                 </div>
                             </div>

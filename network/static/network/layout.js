@@ -33,11 +33,12 @@ function createpost() {
     document.querySelector('.body').setAttribute('aria-hidden', 'true');
     document.querySelector('body').style.overflow = "hidden";
     document.querySelector('#insert-img').onchange = previewFile;
+    popup.querySelector('.large-popup').querySelector('form').setAttribute('onsubmit', '');
     popup.querySelector('.large-popup').querySelector("#post-text").addEventListener('input', (event) => {
         if(event.target.value.trim().length > 0) {
             popup.querySelector('.submit-btn').disabled = false;
         }
-        else if(event.target.parentElement.querySelector('#insert-img').value) {
+        else if(event.target.parentElement.querySelector('#img-div').style.backgroundImage) {
             popup.querySelector('.submit-btn').disabled = false;
         }
         else {
@@ -75,8 +76,83 @@ function delete_post(id) {
     },200);
 }
 
+function edit_post(element) {
+    let post = element.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+    let popup = document.querySelector('.large-popup');
+    let promise = new Promise((resolve, reject) => {
+        let post_text = post.querySelector('.post-content').innerText;
+        let post_image = post.querySelector('.post-image');
+
+        popup.querySelector('#post-text').value = post_text;
+        if(post_image !== null) {
+            popup.querySelector('#img-div').style.backgroundImage = post_image.style.backgroundImage;
+            popup.querySelector('#img-div').style.display = 'block';
+        }
+        else {
+            popup.querySelector('#img-div').style.backgroundImage = '';
+        }
+        resolve(popup);
+    });
+    promise.then(() => {
+        createpost();
+        popup.querySelector('form').setAttribute('onsubmit', `return edit_post_submit(${post.dataset.post_id})`);
+        popup.querySelector('.submit-btn').disabled = false;
+    });
+}
+function edit_post_submit(post_id) {
+    let popup = document.querySelector('.large-popup');
+    let text = popup.querySelector('#post-text').value;
+    let pic = popup.querySelector('#insert-img');
+    let chg = popup.querySelector('#img-change');
+    let formdata = new FormData();
+    formdata.append('text',text);
+    formdata.append('picture',pic.files[0]);
+    formdata.append('img_change', chg.value);
+    formdata.append('id',post_id);
+    fetch('/n/post/'+parseInt(post_id)+'/edit', {
+        method:'POST',
+        body: formdata
+    })
+    .then(response => {
+        console.log('before json');
+        console.log(response);
+        response = response.json();
+        console.log('after json');
+        console.log(response);
+    })
+    .then(response => {
+        if(response['success']) {    
+            console.log('------------------------------------------------------');
+            console.log('Success!!!');
+            console.log(response);
+            console.log('------------------------------------------------------');
+            let posts = document.querySelectorAll('.post');
+            posts.forEach(post => {
+                if(post.dataset.post_id === post_id) {
+                    if(response.text !== 'None') {
+                        post.querySelector('.post-content').innerText = response.text;
+                    }
+                    if(response.picture !== 'None') {
+                        post.querySelector('.post-image').style.backgroundImage = `url(${response.picture})`;
+                    }
+                }
+            });
+            return false;
+        }
+        else {
+            console.log('------------------------------------------------------');
+            console.log('Error!!!');
+            console.log(response);
+            console.log('------------------------------------------------------');
+        }
+    });
+    remove_popup();
+    return false;
+}
+
 function remove_popup() {
-    document.querySelector('.popup').style.display = 'none';
+    let popup = document.querySelector('.popup');
+    popup.style.display = 'none';
     document.querySelector('.body').style.marginRight = '0px';
     document.querySelector('.body').setAttribute('aria-hidden', 'false');
     document.querySelector('body').style.overflow = "auto";
@@ -86,6 +162,10 @@ function remove_popup() {
     small_popup.style.display = 'none';
     large_popup.style.display = 'none';
     login_popup.style.display = 'none';
+    large_popup.querySelector('#post-text').value = '';
+    large_popup.querySelector('#insert-img').value = '';
+    large_popup.querySelector('#img-div').style.backgroundImage = '';
+    large_popup.querySelector('#img-div').style.display = 'none';
 }
 
 function login_popup(action) {
@@ -136,6 +216,7 @@ function previewFile() {
     
     reader.onloadend = function () {
         preview.style.backgroundImage = `url(${reader.result})`;
+        document.querySelector('.large-popup').querySelector('#img-change').value = 'true';
     }
 
     if (file) {

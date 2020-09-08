@@ -131,6 +131,40 @@ def create_post(request):
     else:
         return HttpResponse("Method must be 'POST'")
 
+@login_required
+@csrf_exempt
+def edit_post(request, post_id):
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        pic = request.FILES.get('picture')
+        img_chg = request.POST.get('img_change')
+        post_id = request.POST.get('id')
+
+        print(f'Text: {text}')
+        print(f'Pic: {pic}')
+        print(f'Post ID: {post_id}')
+
+        post = Post.objects.get(id=post_id)
+        try:
+            #post.update(content_text=text, content_image=pic)
+            post.content_text = text
+            if img_chg != 'false':
+                post.content_image = pic
+            post.save()
+            return JsonResponse({
+                "success": True,
+                "text": (post.content_text or 'None'),
+                "picture": (post.img_url() or 'None')
+            }, status=201)
+        except Exception as e:
+            print('-----------------------------------------------')
+            print(e)
+            print('-----------------------------------------------')
+            return JsonResponse({
+                "success": False
+            })
+    else:
+            return HttpResponse("Method must be 'POST'")
 
 @csrf_exempt
 def like_post(request, id):

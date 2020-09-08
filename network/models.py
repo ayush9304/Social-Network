@@ -32,6 +32,9 @@ class Post(models.Model):
     def __str__(self):
         return f"Post ID: {self.id} (creater: {self.creater})"
 
+    def img_url(self):
+        return self.content_image.url
+
     def append(self, name, value):
         self.name = value
 
