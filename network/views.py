@@ -5,13 +5,19 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 import json
 
 from .models import *
 
 
 def index(request):
-    posts = Post.objects.all().order_by('-date_created')
+    all_posts = Post.objects.all().order_by('-date_created')
+    paginator = Paginator(all_posts, 10)
+    page_number = request.GET.get('page')
+    if page_number == None:
+        page_number = 1
+    posts = paginator.get_page(page_number)
     followings = []
     suggestions = []
     if request.user.is_authenticated:
@@ -78,7 +84,12 @@ def register(request):
 
 def profile(request, username):
     user = User.objects.get(username=username)
-    posts = Post.objects.filter(creater=user).order_by('-date_created')
+    all_posts = Post.objects.filter(creater=user).order_by('-date_created')
+    paginator = Paginator(all_posts, 10)
+    page_number = request.GET.get('page')
+    if page_number == None:
+        page_number = 1
+    posts = paginator.get_page(page_number)
     followings = []
     suggestions = []
     follower = False
@@ -94,7 +105,7 @@ def profile(request, username):
     return render(request, 'network/profile.html', {
         "username": user,
         "posts": posts,
-        "posts_count": posts.count(),
+        "posts_count": all_posts.count(),
         "suggestions": suggestions,
         "page": "profile",
         "is_follower": follower,
@@ -105,13 +116,39 @@ def profile(request, username):
 def following(request):
     if request.user.is_authenticated:
         following_user = Follower.objects.filter(followers=request.user).values('user')
-        posts = Post.objects.filter(creater__in=following_user).order_by('-date_created')
+        all_posts = Post.objects.filter(creater__in=following_user).order_by('-date_created')
+        paginator = Paginator(all_posts, 10)
+        page_number = request.GET.get('page')
+        if page_number == None:
+            page_number = 1
+        posts = paginator.get_page(page_number)
         followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
         suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6]
         return render(request, "network/index.html", {
             "posts": posts,
             "suggestions": suggestions,
             "page": "following"
+        })
+    else:
+        return HttpResponseRedirect(reverse('login'))
+
+def saved(request):
+    if request.user.is_authenticated:
+        following_user = Follower.objects.filter(followers=request.user).values('user')
+        all_posts = Post.objects.filter(creater__in=following_user).order_by('-date_created')
+
+        paginator = Paginator(all_posts, 10)
+        page_number = request.GET.get('page')
+        if page_number == None:
+            page_number = 1
+        posts = paginator.get_page(page_number)
+
+        followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
+        suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6]
+        return render(request, "network/index.html", {
+            "posts": posts,
+            "suggestions": suggestions,
+            "page": "saved"
         })
     else:
         return HttpResponseRedirect(reverse('login'))
@@ -141,7 +178,6 @@ def edit_post(request, post_id):
         post_id = request.POST.get('id')
         post = Post.objects.get(id=post_id)
         try:
-            #post.update(content_text=text, content_image=pic)
             post.content_text = text
             if img_chg != 'false':
                 post.content_image = pic
@@ -181,7 +217,7 @@ def like_post(request, id):
                 post.likers.add(request.user)
                 post.save()
                 return HttpResponse(status=204)
-            except expression as e:
+            except Exception as e:
                 return HttpResponse(e)
         else:
             return HttpResponse("Method must be 'PUT'")
@@ -198,7 +234,7 @@ def unlike_post(request, id):
                 post.likers.remove(request.user)
                 post.save()
                 return HttpResponse(status=204)
-            except expression as e:
+            except Exception as e:
                 return HttpResponse(e)
         else:
             return HttpResponse("Method must be 'PUT'")
@@ -215,7 +251,7 @@ def save_post(request, id):
                 post.savers.add(request.user)
                 post.save()
                 return HttpResponse(status=204)
-            except expression as e:
+            except Exception as e:
                 return HttpResponse(e)
         else:
             return HttpResponse("Method must be 'PUT'")
@@ -232,7 +268,7 @@ def unsave_post(request, id):
                 post.savers.remove(request.user)
                 post.save()
                 return HttpResponse(status=204)
-            except expression as e:
+            except Exception as e:
                 return HttpResponse(e)
         else:
             return HttpResponse("Method must be 'PUT'")
@@ -270,7 +306,7 @@ def unfollow(request, username):
                 follower.followers.remove(request.user)
                 follower.save()
                 return HttpResponse(status=204)
-            except expression as e:
+            except Exception as e:
                 return HttpResponse(e)
         else:
             return HttpResponse("Method must be 'PUT'")
@@ -284,7 +320,6 @@ def comment(request, post_id):
         if request.method == 'POST':
             data = json.loads(request.body)
             comment = data.get('comment_text')
-            #post_id = data.get('post_id')
             post = Post.objects.get(id=post_id)
             try:
                 newcomment = Comment.objects.create(post=post,commenter=request.user,comment_content=comment)
@@ -292,7 +327,6 @@ def comment(request, post_id):
                 post.save()
                 print(newcomment.serialize())
                 return JsonResponse([newcomment.serialize()], safe=False, status=201)
-                #return JsonResponse({'success': True},status=201)
             except Exception as e:
                 return HttpResponse(e)
     
@@ -300,11 +334,6 @@ def comment(request, post_id):
         comments = Comment.objects.filter(post=post)
         comments = comments.order_by('-comment_time').all()
         return JsonResponse([comment.serialize() for comment in comments], safe=False)
-        
-        
-        #return JsonResponse({
-        #    "comments": [comment.serialize() for comment in comments]
-        #})
     else:
         return HttpResponseRedirect(reverse('login'))
 

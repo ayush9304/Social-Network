@@ -516,6 +516,30 @@ svg{
     text-decoration: underline;
 }
 
+.pagination-bar{
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+.pagination-bar .page-link{
+    line-height: .9em;
+}
+.page-item.active .page-link{
+    color: white !important;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+.page-link{
+    color: #28a745;
+}
+.page-link:hover{
+    color: #218838;
+}
+.page-link:focus{
+    box-shadow: none !important;
+    z-index: 0;
+}
+
+
 
 
 .right-div{

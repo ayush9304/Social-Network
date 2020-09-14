@@ -404,6 +404,7 @@ function show_comment(element) {
         comment_div.querySelector('input').focus()
         return;
     }
+    comment_div.querySelector('#spinner').style.display = 'block';
     comment_div.style.display = 'block';
     fetch('/n/post/'+parseInt(post_id)+'/comments')
     .then(response => response.json())
