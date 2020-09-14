@@ -139,11 +139,6 @@ def edit_post(request, post_id):
         pic = request.FILES.get('picture')
         img_chg = request.POST.get('img_change')
         post_id = request.POST.get('id')
-
-        print(f'Text: {text}')
-        print(f'Pic: {pic}')
-        print(f'Post ID: {post_id}')
-
         post = Post.objects.get(id=post_id)
         try:
             #post.update(content_text=text, content_image=pic)
@@ -151,11 +146,21 @@ def edit_post(request, post_id):
             if img_chg != 'false':
                 post.content_image = pic
             post.save()
+            
+            if(post.content_text):
+                post_text = post.content_text
+            else:
+                post_text = False
+            if(post.content_image):
+                post_image = post.img_url()
+            else:
+                post_image = False
+            
             return JsonResponse({
                 "success": True,
-                "text": (post.content_text or 'None'),
-                "picture": (post.img_url() or 'None')
-            }, status=201)
+                "text": post_text,
+                "picture": post_image
+            })
         except Exception as e:
             print('-----------------------------------------------')
             print(e)

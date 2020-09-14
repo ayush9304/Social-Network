@@ -81,11 +81,12 @@ function edit_post(element) {
     let popup = document.querySelector('.large-popup');
     let promise = new Promise((resolve, reject) => {
         let post_text = post.querySelector('.post-content').innerText;
-        let post_image = post.querySelector('.post-image');
+        let post_image = post.querySelector('.post-image').style.backgroundImage;
 
         popup.querySelector('#post-text').value = post_text;
-        if(post_image !== null) {
-            popup.querySelector('#img-div').style.backgroundImage = post_image.style.backgroundImage;
+        if(post_image) {
+            popup.querySelector('#img-div').style.backgroundImage = post_image;
+            document.querySelector('#del-img').addEventListener('click', del_image);
             popup.querySelector('#img-div').style.display = 'block';
         }
         else {
@@ -113,37 +114,32 @@ function edit_post_submit(post_id) {
         method:'POST',
         body: formdata
     })
+    .then(response => response.json())
     .then(response => {
-        console.log('before json');
-        console.log(response);
-        response = response.json();
-        console.log('after json');
-        console.log(response);
-    })
-    .then(response => {
-        if(response['success']) {    
-            console.log('------------------------------------------------------');
-            console.log('Success!!!');
-            console.log(response);
-            console.log('------------------------------------------------------');
+        if(response.success) {
             let posts = document.querySelectorAll('.post');
             posts.forEach(post => {
-                if(post.dataset.post_id === post_id) {
-                    if(response.text !== 'None') {
+                if(parseInt(post.dataset.post_id) === parseInt(post_id)) {
+                    if(response.text) {
                         post.querySelector('.post-content').innerText = response.text;
                     }
-                    if(response.picture !== 'None') {
+                    else {
+                        post.querySelector('.post-content').innerText = "";
+                    }
+                    if(response.picture) {
                         post.querySelector('.post-image').style.backgroundImage = `url(${response.picture})`;
+                        post.querySelector('.post-image').style.display = 'block';
+                    }
+                    else {
+                        post.querySelector('.post-image').style.backgroundImage = '';
+                        post.querySelector('.post-image').style.display = 'none';
                     }
                 }
             });
             return false;
         }
         else {
-            console.log('------------------------------------------------------');
-            console.log('Error!!!');
-            console.log(response);
-            console.log('------------------------------------------------------');
+            console.log('There was an error while editing the post.');
         }
     });
     remove_popup();
@@ -250,6 +246,7 @@ function del_image() {
     document.querySelector('input[type=file]').value = '';
     document.querySelector('#img-div').style.backgroundImage = '';
     document.querySelector('#img-div').style.display = 'none';
+    document.querySelector('.large-popup').querySelector('#img-change').value = 'true';
     if(document.querySelector('.large-popup').querySelector('#post-text').value.trim().length <= 0) {
         document.querySelector('.large-popup').querySelector('.form-action-btns').querySelector('input[type=submit]').disabled = true;
     }

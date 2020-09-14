@@ -79,6 +79,8 @@
                                         {% endif %}
                                         {% if post.content_image %}
                                             <div class="post-image" style="background-image: url(/media/{{post.content_image}});"></div>
+                                        {% else %}
+                                            <div class="post-image" style="display: none;"></div>
                                         {% endif %}
                                         <div class="post-actions">
     
@@ -139,7 +141,7 @@
                                 </div>
                                 <div class="comment-div" style="display: none;" data-post_id="{{post.id}}">
                                     <div class="spinner-div">
-                                        <img src="{% static 'network/Images/spinner.gif' %}" id='spinner' height="65px">
+                                        <img src="{% static 'network/Images/spinner.gif' %}" id="spinner" height="65px">
                                     </div>
                                     {% if user.is_authenticated %}
                                         <div class="comment-div-data" style="display: none;">
