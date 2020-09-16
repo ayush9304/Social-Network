@@ -161,6 +161,7 @@ function remove_popup() {
     large_popup.querySelector('#post-text').value = '';
     large_popup.querySelector('#insert-img').value = '';
     large_popup.querySelector('#img-div').style.backgroundImage = '';
+    large_popup.querySelector('#img-change').value = 'false';
     large_popup.querySelector('#img-div').style.display = 'none';
 }
 

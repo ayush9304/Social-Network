@@ -1,28 +1,60 @@
 {% extends "network/layout2.html" %}
 
+{% load static %}
+
 {% block title %}
     Sign In | Network
 {% endblock %}
 
+
+
 {% block body %}
-
-    <h2>Sign In</h2>
-
-    {% if message %}
-        <div>{{ message }}</div>
-    {% endif %}
-
-    <form action="{% url 'login' %}" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <input autofocus class="form-control" type="text" name="username" placeholder="Username">
+    <div class="user-box">
+        <div>
+            <center>
+                <img src="{% static 'network/Images/logo_icon.png' %}" height="45em" style="margin-bottom: 2vh;">
+                <h3>Sign In to Network</h2><br>
+            </center>
         </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="password" placeholder="Password">
+    
+        <form action="{% url 'login' %}" method="post" id="signin-form" style="width: 100%;margin-bottom: 5vh;">
+            {% csrf_token %}
+            <div class="form-group">
+                <input class="form-control inp usrnm" type="text" name="username" placeholder="Username" autocomplete="off" autofocus>
+            </div>
+            <div class="form-group">
+                <input class="form-control inp pswd" type="password" name="password" placeholder="Password" autocomplete="off">
+                <span class="star"><small>{{message}}</small></span>
+            </div>
+            <center>
+                <input class="btn btn-primary" type="submit" value="Sign In" style="margin-top: 10px; width: 95%;" disabled>
+            </center>
+        </form>
+    
+        <div>
+            <center>
+                Already have an account? <a href="{% url 'register' %}">Sign Up</a>
+            </center>
         </div>
-        <input class="btn btn-primary" type="submit" value="Login">
-    </form>
+    </div>
 
-    Don't have an account? <a href="{% url 'register' %}">Register here.</a>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".inp").forEach(input => {
+                input.addEventListener('input', () => {
+                    if ((document.querySelector('.usrnm').value.length === 0) || (document.querySelector('.pswd').value.length === 0)) {
+                        document.querySelector('input[type="submit"]').disabled = true;
+                    }
+                    else {
+                        document.querySelector('input[type="submit"]').disabled = false;
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}
+
+
+
+
