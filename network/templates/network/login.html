@@ -6,14 +6,12 @@
     Sign In | Network
 {% endblock %}
 
-
-
 {% block body %}
     <div class="user-box">
         <div>
             <center>
                 <img src="{% static 'network/Images/logo_icon.png' %}" height="45em" style="margin-bottom: 2vh;">
-                <h3>Sign In to Network</h2><br>
+                <h3>Log in to Network</h3><br>
             </center>
         </div>
     
@@ -27,13 +25,13 @@
                 <span class="star"><small>{{message}}</small></span>
             </div>
             <center>
-                <input class="btn btn-primary" type="submit" value="Sign In" style="margin-top: 10px; width: 95%;" disabled>
+                <input class="btn btn-primary" type="submit" value="Log in" style="margin-top: 10px; width: 95%;" disabled>
             </center>
         </form>
     
         <div>
             <center>
-                Already have an account? <a href="{% url 'register' %}">Sign Up</a>
+                Don't have an account?&nbsp;&nbsp;<a href="{% url 'register' %}">Sign Up</a>
             </center>
         </div>
     </div>

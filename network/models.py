@@ -4,7 +4,7 @@ from django.utils import timezone
 
 
 class User(AbstractUser):
-    profile_pic = models.ImageField(upload_to='profile_pic/', null=True)
+    profile_pic = models.ImageField(upload_to='profile_pic/', default="no_pic.png")
     bio = models.TextField(max_length=160, null=True)
     cover = models.ImageField(upload_to='covers/', blank=True)
 

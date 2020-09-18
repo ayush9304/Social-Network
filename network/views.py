@@ -60,6 +60,12 @@ def register(request):
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
+        fname = request.POST["firstname"]
+        lname = request.POST["lastname"]
+        profile_pic = request.FILES.get("profile")
+        print(f"--------------------------Profile: {profile}----------------------------")
+        cover = request.FILES.get('cover')
+        print(f"--------------------------Cover: {cover}----------------------------")
 
         # Ensure password matches confirmation
         password = request.POST["password"]
@@ -72,7 +78,12 @@ def register(request):
         # Attempt to create new user
         try:
             user = User.objects.create_user(username, email, password)
+            user.first_name = fname
+            user.last_name = lname
+            user.profile_pic = profile_pic
+            user.cover = cover
             user.save()
+            Follower.objects.create(user=user)
         except IntegrityError:
             return render(request, "network/register.html", {
                 "message": "Username already taken."
@@ -81,6 +92,8 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+
 
 def profile(request, username):
     user = User.objects.get(username=username)

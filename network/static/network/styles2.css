@@ -35,3 +35,11 @@
     margin-left: 10px;
     margin-right: 10px;
 }
+
+.custom-file-label{
+    overflow: hidden;
+}
+
+.small{
+    font-size: small;
+}
