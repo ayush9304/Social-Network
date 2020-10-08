@@ -19,12 +19,12 @@
             </center>
         </div>
     
-        <form action="{% url 'register' %}" method="post" id="signin-form" style="width: 100%;margin-bottom: 5vh;">
+        <form action="{% url 'register' %}" method="post" id="signin-form" style="width: 100%;margin-bottom: 5vh;"  enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
                 <div class="form-row align-items-center">
                 <div class="col-sm-6 my-1">
-                    <input class="form-control inp fname" type="text" name="firstname" placeholder="First Name *" autocomplete="off">
+                    <input class="form-control inp fname" type="text" name="firstname" placeholder="First Name *" autocomplete="off" autofocus>
                     <span class="star small"></span>
                 </div>
                 <div class="col-sm-6 my-1">

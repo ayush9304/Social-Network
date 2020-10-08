@@ -62,7 +62,7 @@ def register(request):
         email = request.POST["email"]
         fname = request.POST["firstname"]
         lname = request.POST["lastname"]
-        profile_pic = request.FILES.get("profile")
+        profile = request.FILES.get("profile")
         print(f"--------------------------Profile: {profile}----------------------------")
         cover = request.FILES.get('cover')
         print(f"--------------------------Cover: {cover}----------------------------")
@@ -80,8 +80,11 @@ def register(request):
             user = User.objects.create_user(username, email, password)
             user.first_name = fname
             user.last_name = lname
-            user.profile_pic = profile_pic
-            user.cover = cover
+            if profile is not None:
+                user.profile_pic = profile
+            else:
+                user.profile_pic = "profile_pic/no_pic.png"
+            user.cover = cover           
             user.save()
             Follower.objects.create(user=user)
         except IntegrityError:
