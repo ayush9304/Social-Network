@@ -150,8 +150,7 @@ def following(request):
 
 def saved(request):
     if request.user.is_authenticated:
-        following_user = Follower.objects.filter(followers=request.user).values('user')
-        all_posts = Post.objects.filter(creater__in=following_user).order_by('-date_created')
+        all_posts = Post.objects.filter(savers=request.user).order_by('-date_created')
 
         paginator = Paginator(all_posts, 10)
         page_number = request.GET.get('page')
