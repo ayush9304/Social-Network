@@ -1,5 +1,4 @@
-
-![logo](https://user-images.githubusercontent.com/56977388/180221605-6db2d893-ee5a-4a06-aed4-b57bbd35f78f.png)
+![logo-transparent](https://user-images.githubusercontent.com/56977388/180226746-a993ceb9-a886-4fc3-9b36-dbcb6cc93d41.png)
 
 
 A social networking Django application (similar to Twitter) written in Python, HTML, CSS &amp; JavaScript.
